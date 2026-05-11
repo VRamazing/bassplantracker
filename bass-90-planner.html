@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bass Guitar — 90 Day Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f5f2eb;--ink:#1a1814;--ink2:#3d3a34;--ink3:#7a7570;
+  --rule:#ddd9d0;--ph1:#c8441a;--ph2:#1a6bc8;--ph3:#1a9e5a;
+  --accent:#c8441a;--card:#fff;--hover:#faf8f4;--tag:#ede9e0;
+  --done-bg:#f0faf4;--done-c:#1a9e5a;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-height:100vh;}
+
+/* ── HERO ── */
+.hero{padding:40px 24px 32px;border-bottom:2px solid var(--ink);background:var(--ink);color:#fff;}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:12px;}
+.hero-title{font-size:clamp(40px,9vw,80px);font-weight:800;line-height:0.92;letter-spacing:-2px;}
+.hero-title em{font-style:normal;color:var(--accent);}
+.hero-meta{margin-top:20px;display:flex;gap:24px;flex-wrap:wrap;}
+.meta-item{display:flex;flex-direction:column;gap:2px;}
+.meta-val{font-size:clamp(22px,5vw,30px);font-weight:700;line-height:1;color:var(--accent);}
+.meta-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#666;}
+.hero-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;padding-top:20px;border-top:1px solid #2a2824;}
+.legend-row{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#888;}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* ── GLOBAL PROGRESS ── */
+.global-prog{background:#111;padding:10px 24px;display:flex;align-items:center;gap:12px;}
+.gp-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;white-space:nowrap;}
+.gp-bar{flex:1;height:3px;background:#2a2824;border-radius:2px;overflow:hidden;min-width:60px;}
+.gp-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s;}
+.gp-pct{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;color:var(--accent);white-space:nowrap;min-width:32px;text-align:right;}
+.gp-count{font-family:'JetBrains Mono',monospace;font-size:9px;color:#555;white-space:nowrap;}
+
+/* ── TOOLBAR ── */
+.toolbar{position:sticky;top:0;z-index:100;background:var(--ink);border-bottom:1px solid #2a2824;display:flex;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.toolbar::-webkit-scrollbar{height:0;}
+.phase-tab{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:13px 16px;cursor:pointer;color:#555;border:none;background:none;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;flex-shrink:0;}
+.phase-tab:hover{color:#aaa;}
+.phase-tab.active{color:#fff;border-bottom-color:var(--accent);}
+.search-wrap{margin-left:auto;padding:0 16px;flex-shrink:0;}
+.search-input{background:#1a1814;border:1px solid #2a2824;color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;padding:6px 12px;outline:none;width:140px;border-radius:2px;}
+.search-input::placeholder{color:#444;}
+.search-input:focus{border-color:var(--accent);}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:220px 1fr;}
+
+/* ── SIDEBAR ── */
+.sidebar{border-right:1px solid var(--rule);position:sticky;top:42px;height:calc(100vh - 42px);overflow-y:auto;background:var(--card);}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--rule);}
+.sb-section{border-bottom:1px solid var(--rule);}
+.sb-head{padding:12px 16px 8px;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink3);}
+.sb-item{padding:8px 16px;cursor:pointer;font-size:12px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px;transition:background .1s;border-left:3px solid transparent;}
+.sb-item:hover{background:var(--hover);}
+.sb-item.active{background:var(--hover);border-left-color:var(--accent);}
+.sb-wk{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink3);white-space:nowrap;}
+.sb-prog{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--done-c);}
+
+/* ── CONTENT ── */
+.content{min-width:0;}
+
+/* ── PHASE DIVIDER ── */
+.phase-div{padding:32px 24px 24px;background:var(--ink);color:#fff;scroll-margin-top:42px;}
+.phase-div-num{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#555;margin-bottom:6px;}
+.phase-div-title{font-size:clamp(22px,5vw,32px);font-weight:800;letter-spacing:-0.5px;line-height:1;}
+.phase-div-desc{margin-top:8px;font-size:12px;color:#777;line-height:1.55;max-width:520px;}
+.phase-div-days{font-family:'JetBrains Mono',monospace;font-size:clamp(28px,6vw,44px);font-weight:300;color:#222;line-height:1;margin-top:6px;}
+
+/* ── WEEK BLOCK ── */
+.week-block{border-bottom:1px solid var(--rule);scroll-margin-top:42px;}
+.week-header{padding:20px 24px 16px;background:var(--card);cursor:pointer;user-select:none;display:flex;align-items:flex-start;gap:12px;}
+.week-header:hover{background:var(--hover);}
+.week-header-left{flex:1;min-width:0;}
+.week-num{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:4px;}
+.week-title{font-size:clamp(16px,4vw,20px);font-weight:700;letter-spacing:-0.3px;margin-bottom:8px;}
+.week-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;}
+.wtag{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;background:var(--tag);color:var(--ink2);border-radius:2px;}
+.week-prog-row{display:flex;align-items:center;gap:8px;}
+.week-prog-bar{height:2px;background:var(--rule);flex:1;border-radius:2px;overflow:hidden;}
+.week-prog-fill{height:100%;background:var(--done-c);border-radius:2px;transition:width .3s;}
+.week-prog-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink3);white-space:nowrap;}
+.week-header-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+.phase-badge{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:2px;color:#fff;white-space:nowrap;}
+.chevron{font-size:18px;color:var(--ink3);transition:transform .2s;line-height:1;}
+.week-header.open .chevron{transform:rotate(90deg);}
+.week-body{display:none;}
+.week-body.open{display:block;}
+
+/* ── WEEK SUMMARY ── */
+.week-summary{padding:12px 24px;background:var(--bg);border-bottom:1px solid var(--rule);display:flex;gap:20px;flex-wrap:wrap;}
+.sum-block{display:flex;flex-direction:column;gap:2px;}
+.sum-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);}
+.sum-val{font-size:12px;font-weight:600;color:var(--ink2);}
+.song-pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:2px 7px;border:1px solid var(--rule);background:var(--card);border-radius:2px;}
+.band-pip{width:5px;height:5px;border-radius:50%;}
+
+/* ── DAYS ── */
+.days-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.days-grid{display:grid;grid-template-columns:repeat(7,minmax(150px,1fr));border-bottom:1px solid var(--rule);}
+.day-col{border-right:1px solid var(--rule);padding:16px 12px;min-width:150px;}
+.day-col:last-child{border-right:none;}
+.day-col-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.day-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);}
+.day-done-badge{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:1px;padding:2px 5px;background:var(--done-c);color:#fff;border-radius:2px;display:none;}
+.day-col.all-done{background:var(--done-bg);}
+.day-col.all-done .day-done-badge{display:inline-block;}
+.day-col.all-done .day-num{color:var(--done-c);}
+.day-num{font-size:clamp(16px,4vw,20px);font-weight:800;line-height:1;margin-bottom:10px;}
+.day-rest{border-right:1px solid var(--rule);padding:16px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:.35;min-width:80px;}
+.rest-icon{font-size:18px;}
+.rest-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--ink3);}
+.rest-day{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink3);margin-top:2px;}
+
+/* ── PRACTICE ITEM ── */
+.practice-item{margin-bottom:6px;padding:7px 9px;background:var(--bg);border-left:2px solid var(--rule);border-radius:0 2px 2px 0;transition:opacity .15s;}
+.practice-item.checked-item{opacity:.45;}
+.practice-item.checked-item .p-text{text-decoration:line-through;text-decoration-color:var(--ink3);}
+.p-cat{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2px;}
+.item-check{display:flex;align-items:flex-start;gap:7px;cursor:pointer;}
+.item-checkbox{appearance:none;-webkit-appearance:none;width:13px;height:13px;border:1.5px solid var(--rule);background:var(--card);cursor:pointer;flex-shrink:0;margin-top:1px;transition:all .15s;border-radius:2px;position:relative;}
+.item-checkbox:checked{background:var(--accent);border-color:var(--accent);}
+.item-checkbox:checked::after{content:'';position:absolute;left:3px;top:-1px;width:4px;height:8px;border:1.5px solid #fff;border-top:none;border-left:none;transform:rotate(45deg);}
+.item-content{flex:1;min-width:0;}
+.p-text{font-weight:600;font-size:11px;line-height:1.35;}
+.p-detail{font-size:10px;color:var(--ink3);margin-top:2px;line-height:1.4;}
+.resource-link{display:inline-flex;align-items:center;gap:3px;margin-top:3px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ph2);text-decoration:none;opacity:.8;transition:opacity .15s;word-break:break-all;}
+.resource-link:hover{opacity:1;text-decoration:underline;}
+.resource-link::before{content:'↗';font-size:8px;flex-shrink:0;}
+.cat-warmup{border-left-color:#f0a500;}.cat-warmup .p-cat{color:#f0a500;}
+.cat-technique{border-left-color:var(--ph2);}.cat-technique .p-cat{color:var(--ph2);}
+.cat-theory{border-left-color:#8b1ac8;}.cat-theory .p-cat{color:#8b1ac8;}
+.cat-song{border-left-color:var(--ph3);}.cat-song .p-cat{color:var(--ph3);}
+.cat-groove{border-left-color:var(--ph1);}.cat-groove .p-cat{color:var(--ph1);}
+
+/* ── NO RESULTS ── */
+.no-results{padding:60px 24px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink3);}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .hero{padding:28px 16px 24px;}
+  .global-prog{padding:8px 16px;gap:8px;}
+  .gp-count{display:none;}
+  .toolbar{padding:0;}
+  .phase-tab{padding:11px 12px;font-size:9px;}
+  .search-wrap{padding:0 10px;}
+  .search-input{width:110px;}
+  .phase-div{padding:24px 16px 20px;}
+  .week-header{padding:16px;}
+  .week-summary{padding:10px 16px;}
+  .days-grid{grid-template-columns:repeat(7,minmax(140px,1fr));}
+  .day-col{padding:12px 10px;min-width:140px;}
+}
+@media(max-width:480px){
+  .hero-title{font-size:38px;}
+  .phase-tab{padding:10px 10px;font-size:8px;letter-spacing:1px;}
+  .search-input{width:90px;font-size:9px;}
+  .days-grid{grid-template-columns:repeat(7,minmax(130px,1fr));}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">Kaizen Bass Program · 90 Days</div>
+  <div class="hero-title">BASS<br><em>GUITAR</em><br>PLANNER</div>
+  <div class="hero-meta">
+    <div class="meta-item"><div class="meta-val">90</div><div class="meta-lbl">Days</div></div>
+    <div class="meta-item"><div class="meta-val">3</div><div class="meta-lbl">Phases</div></div>
+    <div class="meta-item"><div class="meta-val">13</div><div class="meta-lbl">Weeks</div></div>
+    <div class="meta-item"><div class="meta-val">23+</div><div class="meta-lbl">Songs</div></div>
+  </div>
+  <div class="hero-legend">
+    <div class="legend-row"><div class="legend-dot" style="background:var(--ph1)"></div>Phase I — Groove Foundation</div>
+    <div class="legend-row"><div class="legend-dot" style="background:var(--ph2)"></div>Phase II — Song Mastery</div>
+    <div class="legend-row"><div class="legend-dot" style="background:var(--ph3)"></div>Phase III — Performance</div>
+  </div>
+</div>
+
+<div class="global-prog">
+  <span class="gp-label">Progress</span>
+  <div class="gp-bar"><div class="gp-fill" id="gp-fill" style="width:0%"></div></div>
+  <span class="gp-pct" id="gp-pct">0%</span>
+  <span class="gp-count" id="gp-count">0 / 0 tasks</span>
+</div>
+
+<div class="toolbar">
+  <button class="phase-tab active" onclick="filterPhase('all',this)">All</button>
+  <button class="phase-tab" onclick="filterPhase('I',this)">Phase I</button>
+  <button class="phase-tab" onclick="filterPhase('II',this)">Phase II</button>
+  <button class="phase-tab" onclick="filterPhase('III',this)">Phase III</button>
+  <div class="search-wrap">
+    <input class="search-input" placeholder="Search…" oninput="doSearch(this.value)" id="search-box">
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="content" id="content"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// PHASES
+// ═══════════════════════════════════════════════════════
+const PHASES = {
+  I:   { label:'Groove Foundation',  color:'#c8441a', days:'1–35',   desc:'Pentatonic fluency, groove locking, Drop-D, dynamics. First songs at beginner-intermediate level. You already have guitar knowledge — leverage it fast.' },
+  II:  { label:'Song Mastery',       color:'#1a6bc8', days:'36–70',  desc:'Full songs from memory, technique deepening, RHCP funk, Daft Punk electronic grooves, Linkin Park dynamics, Creed power.' },
+  III: { label:'Performance',        color:'#1a9e5a', days:'71–90',  desc:'30-min live sets, playing with original tracks, ear learning, improvisation, style identity. You play like a bassist.' },
+};
+const PC = { I:'#c8441a', II:'#1a6bc8', III:'#1a9e5a' };
+const CC = { warmup:'#f0a500', technique:'#1a6bc8', theory:'#8b1ac8', song:'#1a9e5a', groove:'#c8441a' };
+const CL = { warmup:'Warm-up', technique:'Technique', theory:'Theory', song:'Song', groove:'Groove' };
+const BC = { GD:'#c8441a', RHCP:'#cc0000', LP:'#1a6bc8', Creed:'#8b1ac8', DP:'#1a9e5a', DG:'#e67e00' };
+
+// ═══════════════════════════════════════════════════════
+// RESOURCES
+// ═══════════════════════════════════════════════════════
+const RES = [
+  { m:/chromatic/i,           l:'Chromatic Exercise Guide',       u:'https://www.studybass.com/lessons/technique/chromatic-scales/' },
+  { m:/spider/i,              l:'Spider Exercise',                u:'https://www.cyberfret.com/bass-guitar/exercises/spider-exercise/' },
+  { m:/pentatonic/i,          l:'Pentatonic Scale for Bass',      u:'https://www.studybass.com/lessons/scales/minor-pentatonic-bass/' },
+  { m:/root.?fifth|root-fifth/i, l:'Root-Fifth Patterns',        u:'https://www.studybass.com/lessons/harmony/playing-fifths/' },
+  { m:/octave/i,              l:'Octave Shapes on Bass',          u:'https://www.studybass.com/lessons/harmony/playing-octaves/' },
+  { m:/slap|thumb slap/i,     l:'Slap Bass Basics',               u:'https://www.talkingbass.net/slap-bass-technique/' },
+  { m:/hammer.on/i,           l:'Hammer-Ons & Pull-Offs',         u:'https://www.studybass.com/lessons/technique/hammer-ons-pull-offs/' },
+  { m:/pull.off/i,            l:'Hammer-Ons & Pull-Offs',         u:'https://www.studybass.com/lessons/technique/hammer-ons-pull-offs/' },
+  { m:/vibrato/i,             l:'Bass Vibrato',                   u:'https://www.talkingbass.net/vibrato-bass-guitar/' },
+  { m:/slide/i,               l:'Slides on Bass',                 u:'https://www.studybass.com/lessons/technique/slides/' },
+  { m:/harmonic/i,            l:'Bass Harmonics',                 u:'https://www.talkingbass.net/bass-harmonics/' },
+  { m:/tapping/i,             l:'Two-Hand Tapping',               u:'https://www.youtube.com/watch?v=oLJnrHbIVWo' },
+  { m:/palm mut/i,            l:'Palm Muting Technique',          u:'https://www.youtube.com/watch?v=WMzjqjJWzI4' },
+  { m:/ghost note/i,          l:'Ghost Notes on Bass',            u:'https://www.talkingbass.net/ghost-notes/' },
+  { m:/muting/i,              l:'String Muting Guide',            u:'https://www.studybass.com/lessons/technique/muting/' },
+  { m:/alternate.{0,8}pluck|pluck.{0,8}alternate/i, l:'Alternate Plucking', u:'https://www.studybass.com/lessons/technique/right-hand-technique/' },
+  { m:/drop.?d/i,             l:'Drop-D Tuning Guide',            u:'https://www.youtube.com/watch?v=mA3oBPUlDMk' },
+  { m:/walking bass/i,        l:'Walking Bass Lines',             u:'https://www.studybass.com/lessons/reading/walking-bass-lines/' },
+  { m:/16th note/i,           l:'16th Note Grooves',              u:'https://www.studybass.com/lessons/rhythm/sixteenth-notes/' },
+  { m:/syncopat/i,            l:'Syncopation on Bass',            u:'https://www.studybass.com/lessons/rhythm/syncopation/' },
+  { m:/fretboard|note name/i, l:'Bass Fretboard Notes',           u:'https://www.studybass.com/lessons/reading/bass-fretboard-notes/' },
+  { m:/major scale/i,         l:'Major Scale on Bass',            u:'https://www.studybass.com/lessons/scales/major-scale/' },
+  { m:/chord tone/i,          l:'Chord Tones for Bass',           u:'https://www.talkingbass.net/chord-tones/' },
+  { m:/passing tone/i,        l:'Passing Tones',                  u:'https://www.talkingbass.net/passing-notes/' },
+  { m:/dynamic/i,             l:'Dynamics on Bass',               u:'https://www.studybass.com/lessons/technique/dynamics/' },
+  { m:/improvisa/i,           l:'Bass Improvisation',             u:'https://www.talkingbass.net/bass-improvisation/' },
+  { m:/locking.{0,10}kick|lock.{0,10}drum/i, l:'Locking with Kick Drum', u:'https://www.youtube.com/watch?v=IAsRdgCWH1A' },
+  { m:/by ear|ear/i,          l:'Ear Training for Bass',          u:'https://www.musictheory.net/exercises/ear-interval' },
+  { m:/metronome|click/i,     l:'Free Online Metronome',          u:'https://www.metronome-online.com/' },
+  { m:/drum loop|drum track/i,l:'Free Drum Loops (DrumBit)',      u:'https://www.drumbit.app/' },
+  { m:/tuner|tuning/i,        l:'Free Online Tuner',              u:'https://tuner.ninja/' },
+  { m:/groove|pocket/i,       l:'Playing in the Pocket',          u:'https://www.studybass.com/lessons/rhythm/playing-in-the-pocket/' },
+  { m:/record yourself/i,     l:'Why Record Yourself',            u:'https://www.talkingbass.net/how-to-record-yourself/' },
+  { m:/stamina|endurance/i,   l:'Building Bass Stamina',          u:'https://www.talkingbass.net/bass-practice-stamina/' },
+  { m:/song structure/i,      l:'Song Structure Basics',          u:'https://www.masterclass.com/articles/song-structure-explained' },
+  // Songs
+  { m:/smoke on the water/i,  l:'Tab: Smoke on the Water',        u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=smoke+on+the+water+bass' },
+  { m:/higher.{0,6}creed|creed.{0,6}higher/i, l:'Tab: Higher — Creed', u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=higher+creed+bass' },
+  { m:/my own prison/i,       l:'Tab: My Own Prison',             u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=my+own+prison+bass' },
+  { m:/with arms wide open/i, l:'Tab: With Arms Wide Open',       u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=with+arms+wide+open+bass' },
+  { m:/what.s this life for/i,l:'Tab: What\'s This Life For',     u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=what+this+life+for+bass' },
+  { m:/brain stew/i,          l:'Tab: Brain Stew',                u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=brain+stew+bass' },
+  { m:/basket case/i,         l:'Tab: Basket Case',               u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=basket+case+bass' },
+  { m:/when i come around/i,  l:'Tab: When I Come Around',        u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=when+i+come+around+bass' },
+  { m:/longview/i,            l:'Tab: Longview — GD',             u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=longview+green+day+bass' },
+  { m:/american idiot/i,      l:'Tab: American Idiot',            u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=american+idiot+bass' },
+  { m:/numb/i,                l:'Tab: Numb — LP',                 u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=numb+linkin+park+bass' },
+  { m:/in the end/i,          l:'Tab: In the End — LP',           u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=in+the+end+bass' },
+  { m:/crawling/i,            l:'Tab: Crawling — LP',             u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=crawling+linkin+park+bass' },
+  { m:/one step closer/i,     l:'Tab: One Step Closer',           u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=one+step+closer+bass' },
+  { m:/soul to squeeze/i,     l:'Tab: Soul to Squeeze',           u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=soul+to+squeeze+bass' },
+  { m:/under the bridge/i,    l:'Tab: Under the Bridge',          u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=under+the+bridge+bass' },
+  { m:/give it away/i,        l:'Tab: Give It Away',              u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=give+it+away+bass' },
+  { m:/californication/i,     l:'Tab: Californication',           u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=californication+bass' },
+  { m:/higher ground/i,       l:'Tab: Higher Ground — RHCP',      u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=higher+ground+rhcp+bass' },
+  { m:/suck my kiss/i,        l:'Tab: Suck My Kiss',              u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=suck+my+kiss+bass' },
+  { m:/otherside/i,           l:'Tab: Otherside — RHCP',          u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=otherside+bass' },
+  { m:/can't stop|cant stop/i, l:'Tab: Can\'t Stop — RHCP',       u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=cant+stop+rhcp+bass' },
+  { m:/dark necessities/i,    l:'Tab: Dark Necessities — RHCP',   u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=dark+necessities+bass' },
+  { m:/tippa my tongue/i,     l:'Tab: Tippa My Tongue — RHCP',    u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=tippa+my+tongue+bass' },
+  { m:/get lucky/i,           l:'Tab: Get Lucky — Daft Punk',     u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=get+lucky+bass' },
+  { m:/around the world/i,    l:'Tab: Around the World — DP',     u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=around+the+world+daft+punk+bass' },
+  { m:/digital love/i,        l:'Tab: Digital Love — DP',         u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=digital+love+bass' },
+  { m:/harder better faster|HBFS/i, l:'Tab: HBFS — Daft Punk',   u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=harder+better+faster+stronger+bass' },
+  { m:/lose yourself to dance/i, l:'Tab: Lose Yourself to Dance', u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=lose+yourself+to+dance+bass' },
+  { m:/instant crush/i,       l:'Tab: Instant Crush — DP',        u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=instant+crush+bass' },
+  { m:/dangerous.{0,10}guetta|guetta/i, l:'Tab: Dangerous — David Guetta', u:'https://www.ultimate-guitar.com/search.php?search_type=title&value=dangerous+david+guetta+bass' },
+];
+
+function getRes(item) {
+  const h = item.text + ' ' + (item.detail || '');
+  for (const r of RES) if (r.m.test(h)) return r;
+  return null;
+}
+
+// ═══════════════════════════════════════════════════════
+// PLAN DATA  — 90 days, 13 weeks
+// Complexity order per song:
+// Beginner: Higher(Creed), Brain Stew, When I Come Around, Numb, Dangerous(Guetta)
+// Beginner-Mid: Get Lucky, Around the World, Instant Crush, Basket Case, Lose Yourself, In the End
+// Intermediate: Crawling, Soul to Squeeze, Under the Bridge, My Own Prison, Digital Love, Longview
+// Intermediate+: American Idiot, One Step Closer, HBFS, Californication, Give It Away
+// Advanced: Higher Ground(RHCP), Suck My Kiss, With Arms Wide Open
+// ═══════════════════════════════════════════════════════
+const plan = [
+
+  // ─── PHASE I: GROOVE FOUNDATION (Weeks 1–5, Days 1–35) ───────
+
+  { id:'w1', phase:'I', wn:1, title:'Fretboard & Root Grooves',
+    tags:['Pentatonic','Root-fifth','Octaves','Drop-D intro'],
+    songs:['Higher — Creed','Brain Stew — GD'],
+    sum:{ goal:'Map the neck fast using your guitar knowledge. First songs.', time:'40 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'Chromatic across all 4 strings', detail:'1-2-3-4 ascending and descending. 8 min. This is your daily baseline.' },
+        { cat:'technique', text:'A minor pentatonic — open position', detail:'A C D E G. Learn the shape top to bottom. Guitar knowledge transfers directly. 12 min.' },
+        { cat:'theory',    text:'Root note positions on E and A strings', detail:'Find every A, D, G, E on E and A strings by name. Say them aloud.' },
+        { cat:'song',      text:'Higher (Creed) — verse bass', detail:'Low E half-note movement. B G D A roots. Very slow, very clean. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Chromatic warm-up 8 min', detail:'All 4 strings. Keep notes even.' },
+        { cat:'technique', text:'Root-fifth pattern: A string', detail:'A root (open), E fifth (fret 7). Bounce between in a groove. 10 min.' },
+        { cat:'technique', text:'Octave shapes — E and D string', detail:'Root on E string, octave 2 frets up on D string. Learn 5 pairs. 10 min.' },
+        { cat:'song',      text:'Higher — chorus movement', detail:'B G D A chord roots with eighth-note feel. Loop 15x clean. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Pentatonic warm-up 3x up/down', detail:'Am pentatonic. 8 min.' },
+        { cat:'technique', text:'Palm muting intro', detail:'Rest palm edge on bridge strings lightly. Pluck — thuddy, compressed sound. 10 min.' },
+        { cat:'groove',    text:'Palm muted groove on E string', detail:'Eighth notes, muted. Then alternate: open-muted-open-muted. 90 BPM click. 12 min.' },
+        { cat:'song',      text:'Brain Stew (GD) — main riff', detail:'E D C G# A. Palm muted. Slow first. This song is nearly all palm mute. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Chromatic + pentatonic 8 min', detail:'Standard warm-up.' },
+        { cat:'technique', text:'Drop-D tuning — learn the shape', detail:'Tune low E down to D. Barre 3 low strings at one fret = power chord. Fret 5 = G5, fret 7 = A5.' },
+        { cat:'groove',    text:'Drop-D power groove', detail:'Open D5 → G5 (fret 5) → A5 (fret 7). Heavy and slow. 100 BPM. 12 min.' },
+        { cat:'song',      text:'Brain Stew in Drop-D', detail:'Re-play the riff in Drop-D. Notice the heavier low-end. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Drop-D chromatic 8 min', detail:'Chromatic starting on open D string.' },
+        { cat:'technique', text:'Hammer-ons on single string', detail:'Pluck fret 1, hammer ring finger to fret 3. E and A strings. 10 min.' },
+        { cat:'song',      text:'Higher — full song run', detail:'Verse + chorus + bridge + outro. No stops. Note where it breaks. 15 min.' },
+        { cat:'song',      text:'Brain Stew — full song run', detail:'Palm muted throughout. 2x through. 10 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 8 min', detail:'All tools lightly.' },
+        { cat:'groove',    text:'Groove: root-fifth in Creed style', detail:'B G D A progression. Half-notes, big and slow. 15 min.' },
+        { cat:'song',      text:'Higher + Brain Stew back to back', detail:'Two complete runs each. First mini-set. 20 min.' },
+      ]},
+    ]
+  },
+
+  { id:'w2', phase:'I', wn:2, title:'Dynamics & Linkin Park Intro',
+    tags:['Dynamics','Sustained notes','Numb','In the End'],
+    songs:['Numb — LP','In the End — LP'],
+    sum:{ goal:'Soft-to-loud control. First Linkin Park songs.', time:'42 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'Chromatic + pentatonic 8 min', detail:'Standard warm-up.' },
+        { cat:'technique', text:'Dynamic control drill', detail:'4 bars very soft (pp), 4 bars medium (mp), 4 bars hard (ff). Same tempo. Feel each volume. 12 min.' },
+        { cat:'theory',    text:'Numb — chord map', detail:'Am G F C. Find roots: A (open A), G (E fret 3), F (A fret 8), C (A fret 3).' },
+        { cat:'song',      text:'Numb — intro descending line', detail:'A G E F. Four notes, deliberate. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Numb intro as warm-up 3x', detail:'8 min.' },
+        { cat:'technique', text:'Sustain — hold notes full value', detail:'Play a note, hold it until the very next note starts. Don\'t release early. 10 min.' },
+        { cat:'groove',    text:'Half-note groove — Am vamp', detail:'A for 2 beats, G for 2 beats, F for 2, C for 2. Heavy and slow. 80 BPM. 12 min.' },
+        { cat:'song',      text:'Numb — full verse loop', detail:'Verse pattern, 15 clean reps. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Dynamic warm-up 8 min', detail:'Soft/loud alternating each 4-bar set.' },
+        { cat:'technique', text:'Smooth position shifts', detail:'Moving from low to high frets without a gap or buzz. Slow practice. 10 min.' },
+        { cat:'theory',    text:'In the End — chord map', detail:'Am F C G. Same root positions. Walk between them mentally.' },
+        { cat:'song',      text:'In the End — verse bass', detail:'Simple root-note groove with rhythmic hook. Learn verse movement. 14 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Chromatic + pentatonic 8 min', detail:'Standard warm-up.' },
+        { cat:'technique', text:'Vibrato on long notes', detail:'Rock finger side-to-side quickly on a sustained note. Subtle, adds life. 10 min.' },
+        { cat:'song',      text:'Numb — chorus', detail:'Chorus rises in intensity. Match with slightly harder plucking. 12 min.' },
+        { cat:'song',      text:'In the End — chorus', detail:'More rhythmically active. Learn the movement. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Numb verse as warm-up', detail:'8 min.' },
+        { cat:'song',      text:'Numb — full song run', detail:'Intro → verse → chorus → verse → chorus → outro. No stops. 15 min.' },
+        { cat:'song',      text:'In the End — full song run', detail:'All sections. No stops. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 8 min', detail:'All tools.' },
+        { cat:'groove',    text:'LP-style dynamic improvisation', detail:'Over Am G F C — start soft, build to loud over 8 bars. Then fade. 12 min.' },
+        { cat:'song',      text:'Numb + In the End back to back', detail:'Full runs of both. 20 min.' },
+      ]},
+    ]
+  },
+
+  { id:'w3', phase:'I', wn:3, title:'Daft Punk Electronic Grooves',
+    tags:['Groove precision','Get Lucky','Around the World','Repetition mastery'],
+    songs:['Get Lucky — DP','Around the World — DP','Dangerous — DG'],
+    sum:{ goal:'Machine-precision groove. Electronic bass fundamentals.', time:'42 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'Chromatic all strings 8 min', detail:'Standard warm-up.' },
+        { cat:'theory',    text:'Daft Punk bass style', detail:'Get Lucky is Nile Rodgers disco-funk. Your job: machine-like consistency. Every note identical volume and length.' },
+        { cat:'technique', text:'Consistent tone drill', detail:'Pluck E string 50x. Every note identical force, identical position. This is harder than it sounds. 10 min.' },
+        { cat:'song',      text:'Get Lucky — main riff', detail:'Am7 Bm7 D F#m. Riff: A-C#-D / D-C#-A-B. Learn slowly, then build to tempo. 14 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Get Lucky riff 3x as warm-up', detail:'8 min.' },
+        { cat:'technique', text:'Note length control', detail:'Hold each note exactly its value. Release right before the next one starts. Not early, not late. 10 min.' },
+        { cat:'groove',    text:'16th note feel', detail:'Feel 4 subdivisions per beat. Play on selected 16ths. This is the funk pocket. 90 BPM. 12 min.' },
+        { cat:'song',      text:'Get Lucky — loop 8 min with track', detail:'4-chord loop. Play along to original. Stay locked. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Pentatonic + chromatic 8 min', detail:'Standard warm-up.' },
+        { cat:'song',      text:'Around the World — main riff', detail:'The iconic repetitive bass line. E G A pattern with rhythm. Very repetitive. That\'s the point. 14 min.' },
+        { cat:'technique', text:'String muting — all non-playing strings', detail:'At this precision level, string noise is obvious. Mute every string you\'re not playing. 10 min.' },
+        { cat:'song',      text:'Around the World — with track', detail:'5 full runs with the original. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Around the World riff 3x 8 min', detail:'Warm-up.' },
+        { cat:'theory',    text:'Dangerous (David Guetta) — bass line', detail:'Driving electronic house bass. Em based. Synth-like approach — even, precise, rhythmic. Find the root movement.' },
+        { cat:'song',      text:'Dangerous — main groove', detail:'Learn the verse bass movement. Em D C B pattern. 15 min.' },
+        { cat:'groove',    text:'Electronic groove — metronomic precision', detail:'Any of the 3 riffs. Play one for 5 min without variation. This is discipline. 10 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Get Lucky + Around the World riffs 8 min', detail:'Both as warm-up.' },
+        { cat:'song',      text:'Dangerous — chorus and full song', detail:'Chorus is higher energy. Play the full song. 15 min.' },
+        { cat:'song',      text:'Daft Punk set: Get Lucky → Around the World', detail:'Both full runs back to back. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'Electronic mini-set: Get Lucky → Around the World → Dangerous', detail:'Three songs, no breaks between. 20 min.' },
+        { cat:'groove',    text:'Funk pocket free groove', detail:'Over Am Bm D F#m, improvise a Get Lucky-style bass line. Keep it locked. 12 min.' },
+      ]},
+    ]
+  },
+
+  { id:'w4', phase:'I', wn:4, title:'Green Day Foundations',
+    tags:['Basket Case','When I Come Around','Punk feel','Eighth-note drive'],
+    songs:['When I Come Around — GD','Basket Case — GD'],
+    sum:{ goal:'Punk bass energy. Two classic Green Day tracks.', time:'42 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'Chromatic + pentatonic 8 min', detail:'Standard warm-up.' },
+        { cat:'theory',    text:'When I Come Around — chord map', detail:'G D Em C. Roots: G (D string fret 5 or E fret 3), D (open A or fret 5), Em (open E), C (A fret 3).' },
+        { cat:'technique', text:'Driving eighth notes', detail:'8 notes per bar on root. Punk bass is often eighth notes on one note. Keep it even. 10 min.' },
+        { cat:'song',      text:'When I Come Around — verse', detail:'Root movement with driving eighth-note feel. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Driving eighth-note warm-up 8 min', detail:'100 BPM, one note, eighth notes. Arms drive it.' },
+        { cat:'song',      text:'When I Come Around — chorus + bridge', detail:'Chorus root movement. Learn all sections. 15 min.' },
+        { cat:'song',      text:'When I Come Around — full run', detail:'Start to finish. 2x through. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'When I Come Around verse 3x 8 min', detail:'As warm-up.' },
+        { cat:'theory',    text:'Basket Case — chord map', detail:'Em B C G D. Roots: Em (open E), B (A fret 2), C (A fret 3), G (E fret 3), D (A fret 5).' },
+        { cat:'technique', text:'Dead notes between chord roots', detail:'Lay fingers without pressing fully. Thud between root notes. Mix into groove. 10 min.' },
+        { cat:'song',      text:'Basket Case — verse bass', detail:'Em B C G D with eighth-note drive. 14 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Chromatic 8 min', detail:'Standard warm-up.' },
+        { cat:'song',      text:'Basket Case — chorus', detail:'Faster feel in chorus. Learn chord transitions. 12 min.' },
+        { cat:'technique', text:'Punk speed: arm motion not fingers', detail:'At 160+ BPM, the drive comes from the forearm, not just the fingers. Practice fast runs using the forearm. 12 min.' },
+        { cat:'song',      text:'Basket Case — full run', detail:'All sections. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Fast eighth-note warm-up 8 min', detail:'105 BPM, push it.' },
+        { cat:'song',      text:'When I Come Around — with original track', detail:'5 runs along to the recording. 15 min.' },
+        { cat:'song',      text:'Basket Case — with original track', detail:'5 runs along to the recording. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'GD set: When I Come Around → Basket Case', detail:'Both full runs back to back. 15 min.' },
+        { cat:'groove',    text:'Punk improvisation', detail:'Over G D Em C, improvise punk-style eighth-note bass lines. 12 min.' },
+      ]},
+    ]
+  },
+
+  { id:'w5', phase:'I', wn:5, title:'Phase I Consolidation & Instant Crush',
+    tags:['Instant Crush','Lose Yourself to Dance','Review','Song chaining'],
+    songs:['Instant Crush — DP','Lose Yourself to Dance — DP'],
+    sum:{ goal:'Review all Phase I songs. Add two Daft Punk tracks.', time:'45 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'Instant Crush — key and feel', detail:'Am Bm E7 based. Slower, melodic Daft Punk. Listen 3x before playing. 12 min.' },
+        { cat:'song',      text:'Instant Crush — verse bass by ear', detail:'Find each note. Listen → find → play. Build phrase by phrase. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Instant Crush verse 3x 10 min', detail:'Warm-up.' },
+        { cat:'song',      text:'Instant Crush — chorus', detail:'More movement. Work it out section by section. 12 min.' },
+        { cat:'song',      text:'Lose Yourself to Dance — main riff', detail:'Am Bm D F#m. Similar feel to Get Lucky. Slightly busier. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Chromatic + pentatonic 10 min', detail:'Standard warm-up.' },
+        { cat:'song',      text:'Lose Yourself to Dance — full loop', detail:'Loop the main riff with the track for 10 min. Consistency is the exercise. 12 min.' },
+        { cat:'song',      text:'Instant Crush — full run', detail:'All sections. No stops. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'Phase I review set A', detail:'Higher → Brain Stew → When I Come Around. 20 min.' },
+        { cat:'song',      text:'Phase I review set B', detail:'Numb → Get Lucky → Basket Case. 20 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'Daft Punk full set', detail:'Get Lucky → Around the World → Instant Crush → Lose Yourself → Dangerous. 25 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'Phase I mega chain', detail:'Higher → Numb → Get Lucky → Basket Case → In the End → Dangerous → Instant Crush. 35 min.' },
+        { cat:'technique', text:'Record one song, listen back', detail:'Pick any Phase I song. Record a take. Listen back. Note 3 things to improve. This is your Phase I benchmark.' },
+      ]},
+    ]
+  },
+
+  // ─── PHASE II: SONG MASTERY (Weeks 6–10, Days 36–70) ─────────
+
+  { id:'w6', phase:'II', wn:6, title:'RHCP Intro — Melodic Bass',
+    tags:['Soul to Squeeze','Under the Bridge','Ghost notes','Melodic lines'],
+    songs:['Soul to Squeeze — RHCP','Under the Bridge — RHCP'],
+    sum:{ goal:'Flea\'s melodic approach. Not just roots — tell a story.', time:'45 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'Pentatonic minor + major mix 10 min', detail:'Am minor 2x, A major 2x.' },
+        { cat:'theory',    text:'RHCP bass style', detail:'Flea plays bass like a lead instrument — melodic lines over chord changes. Learn the contour of the melody, not just roots.' },
+        { cat:'technique', text:'Ghost notes — the RHCP secret', detail:'Dead notes (left hand muted) between real notes. Play E × E × E E × E pattern. 12 min.' },
+        { cat:'song',      text:'Soul to Squeeze — verse', detail:'F Am Dm C. Melodic contour over these chords. Learn the shape. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Ghost note groove 10 min', detail:'Ghost notes on all strings as warm-up.' },
+        { cat:'technique', text:'Chromatic approach notes', detail:'Before the root, play one fret below or above to approach it. Adds movement. 12 min.' },
+        { cat:'song',      text:'Soul to Squeeze — chorus', detail:'More open feel. Root movement with approach notes. 12 min.' },
+        { cat:'song',      text:'Under the Bridge — verse', detail:'E B C#m A. Melodic, lyrical. Soft plucking. Sustain the notes. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Soul to Squeeze verse 3x 10 min', detail:'As warm-up.' },
+        { cat:'technique', text:'Finger-style velocity control', detail:'Play E string at 5 different volumes. Find the sweet spot: full tone, controlled. 10 min.' },
+        { cat:'song',      text:'Under the Bridge — chorus + bridge', detail:'Chorus builds. Bridge changes key feel. Learn all. 15 min.' },
+        { cat:'groove',    text:'RHCP groove feel', detail:'Under the Bridge verse pattern on loop with drum track. Lock with kick. 10 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Chromatic + ghost notes 10 min', detail:'Both as warm-up.' },
+        { cat:'song',      text:'Soul to Squeeze — full song', detail:'End to end. No stops. 15 min.' },
+        { cat:'song',      text:'Under the Bridge — full song', detail:'End to end. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'Soul to Squeeze — with original track', detail:'5 full runs along to Flea. Match his feel, not just notes. 20 min.' },
+        { cat:'song',      text:'Under the Bridge — with original track', detail:'5 full runs. 20 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'RHCP intro set', detail:'Soul to Squeeze → Under the Bridge. Both full runs. 20 min.' },
+        { cat:'groove',    text:'Melodic improvisation over Am F C G', detail:'Use ghost notes, approach notes, pentatonic. No roots-only playing. 15 min.' },
+      ]},
+    ]
+  },
+
+  { id:'w7', phase:'II', wn:7, title:'Longview & Creed Power',
+    tags:['Longview chromatic','My Own Prison','Drop-D heavy','Vibrato on sustains'],
+    songs:['Longview — GD','My Own Prison — Creed'],
+    sum:{ goal:'Two intermediate songs with very different characters.', time:'45 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'Chromatic push-tempo 10 min', detail:'Fastest clean tempo you can sustain for 10 min.' },
+        { cat:'theory',    text:'Longview — famous opening', detail:'Chromatic descending line on E string. Slow, muted, purposeful. The most recognisable bass intro in punk rock.' },
+        { cat:'song',      text:'Longview — intro riff', detail:'Learn the iconic slow chromatic opener note for note. 15 min.' },
+        { cat:'technique', text:'Stamina set', detail:'Play eighth notes on E string for 5 min non-stop. Rest 1 min. Repeat. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Longview intro 3x 10 min', detail:'As warm-up.' },
+        { cat:'song',      text:'Longview — verse and chorus', detail:'Verse has fast punk drive. Chorus explodes. Learn both. 15 min.' },
+        { cat:'song',      text:'Longview — full song', detail:'Start to finish. This is a longer song. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Drop-D warm-up 10 min', detail:'Chromatic and power shapes in drop D.' },
+        { cat:'theory',    text:'My Own Prison — drop-D doom feel', detail:'Open D string power, very slow, massive. Long held notes with vibrato. C minor based.' },
+        { cat:'song',      text:'My Own Prison — main riff', detail:'Drop-D. Low E power. Slow and huge. 15 min.' },
+        { cat:'technique', text:'Vibrato on long sustained notes', detail:'My Own Prison has held notes. Add subtle finger vibrato to keep them alive. 10 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'My Own Prison — full song', detail:'All sections. Sustained notes with vibrato throughout. 15 min.' },
+        { cat:'song',      text:'Longview — with original track', detail:'5 runs. Match the swagger. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'My Own Prison — with original track', detail:'5 full runs. 15 min.' },
+        { cat:'song',      text:'Longview + My Own Prison back to back', detail:'Very different vibes. Chain them. 20 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Drop-D 10 min', detail:'All drop-D tools.' },
+        { cat:'song',      text:'Heavy set: Brain Stew → My Own Prison → Longview', detail:'Three full runs, no breaks. 25 min.' },
+        { cat:'groove',    text:'Drop-D improvisation', detail:'Over Dm C Bb A, create your own heavy riff using Drop-D. Record it. 12 min.' },
+      ]},
+    ]
+  },
+
+  { id:'w8', phase:'II', wn:8, title:'Linkin Park Advanced',
+    tags:['One Step Closer','Crawling','Heavy eighth notes','Soft-loud contrast'],
+    songs:['One Step Closer — LP','Crawling — LP'],
+    sum:{ goal:'Heavy and dynamic Linkin Park. Two different worlds.', time:'45 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'Drop-D warm-up 10 min', detail:'Heavy focus — this week is physical.' },
+        { cat:'theory',    text:'One Step Closer — structure', detail:'Verse: Am eighth-note drive. Chorus: Drop-D explosion. Bridge: heavy syncopated breakdown. Map all three.' },
+        { cat:'song',      text:'One Step Closer — verse', detail:'Am eighth notes, palm muted, aggressive. 15 min.' },
+        { cat:'technique', text:'Power and control', detail:'This needs physicality. Pluck hard but stay in control. Body weight into it. 8 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'One Step Closer verse 3x 10 min', detail:'As warm-up.' },
+        { cat:'song',      text:'One Step Closer — chorus + bridge', detail:'Drop-D driving chorus. Syncopated bridge (Shut up! section). 15 min.' },
+        { cat:'song',      text:'One Step Closer — full song', detail:'Start to finish. No stops. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Standard 10 min warm-up', detail:'All tools.' },
+        { cat:'technique', text:'Dynamic contrast drill', detail:'Play 4 bars aggressive (One Step Closer mode), then immediately 4 bars very soft (Crawling mode). Switch cold. 12 min.' },
+        { cat:'song',      text:'Crawling — verse', detail:'Soft, Am-based, floating sustained notes. Big contrast to OSC. 15 min.' },
+        { cat:'song',      text:'Crawling — chorus', detail:'Builds in intensity but never fully explodes. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Crawling verse 3x 10 min', detail:'Soft mode warm-up.' },
+        { cat:'song',      text:'Crawling — full song', detail:'All sections. Dynamics must be felt. 15 min.' },
+        { cat:'song',      text:'One Step Closer — with original track', detail:'5 runs with recording. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'Crawling — with original track', detail:'5 full runs. 15 min.' },
+        { cat:'song',      text:'One Step Closer → Crawling back to back', detail:'Two full runs each. 25 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'LP full set: Numb → In the End → Crawling → One Step Closer', detail:'All four LP songs, no breaks. 30 min.' },
+      ]},
+    ]
+  },
+
+  { id:'w9', phase:'II', wn:9, title:'RHCP Funk — Give It Away & Dark Necessities',
+    tags:['Give It Away','Dark Necessities','Funk 16ths','Slap','Ghost notes'],
+    songs:['Give It Away — RHCP','Dark Necessities — RHCP','Digital Love — DP'],
+    sum:{ goal:'Two essential Flea grooves plus Digital Love. Syncopation and funk pocket.', time:'45 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'Get Lucky + chromatic 10 min', detail:'Daft Punk riff as warm-up.' },
+        { cat:'theory',    text:'Give It Away — Em based riff', detail:'One of Flea\'s most iconic lines. Punchy E-string groove. Fast, rhythmically tight. Fingerstyle, not slap.' },
+        { cat:'song',      text:'Give It Away — verse riff', detail:'Learn the main pattern slowly. Feel the syncopation. 15 min.' },
+        { cat:'technique', text:'Slap intro — thumb bounce', detail:'Thumb bounces off E string at the end of the neck. Like a hammer. String rings, not pressed. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Give It Away riff 3x 10 min', detail:'As warm-up.' },
+        { cat:'song',      text:'Give It Away — full song', detail:'High energy. Every section. No stops. 15 min.' },
+        { cat:'theory',    text:'Dark Necessities — groove anatomy', detail:'2016 RHCP. Flea plays a deeply syncopated Cm groove. The bass carries the whole song. Find the 1 beat and lock to it.' },
+        { cat:'song',      text:'Dark Necessities — intro bass riff', detail:'Cm based, syncopated. The riff starts before the beat. Learn slowly. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Slap/pop warm-up 10 min', detail:'T-P combinations across strings.' },
+        { cat:'song',      text:'Dark Necessities — verse bassline', detail:'The main groove continues under the verse. Repetitive but expressive. 15 min.' },
+        { cat:'groove',    text:'Ghost note groove over funk backing', detail:'Add ghost notes between Dark Necessities root notes. 12 min.' },
+        { cat:'song',      text:'Dark Necessities — chorus', detail:'Chorus opens up. The bass stays active. 10 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'Dark Necessities — full song', detail:'All sections from memory. 15 min.' },
+        { cat:'theory',    text:'Digital Love — Bm E A F#m', detail:'Disco-influenced. Melodic Daft Punk bass. Find roots: Bm (A fret 2), E (open), A (open), F#m (E fret 2).' },
+        { cat:'song',      text:'Digital Love — main groove', detail:'Learn the driving verse bass line. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Slap/pop + chromatic 10 min', detail:'Mix both tools.' },
+        { cat:'song',      text:'Digital Love — full song with track', detail:'5 runs with original. Match the groove. 15 min.' },
+        { cat:'song',      text:'Give It Away — with original track', detail:'5 complete runs with recording. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'Funk/electronic set: Digital Love → Give It Away → Dark Necessities → Get Lucky', detail:'Four full runs, no breaks. 35 min.' },
+      ]},
+    ]
+  },
+
+  { id:'w10', phase:'II', wn:10, title:"Californication, Can't Stop & American Idiot",
+    tags:["Californication","Can't Stop","HBFS","American Idiot","Syncopation"],
+    songs:["Californication — RHCP","Can't Stop — RHCP","HBFS — DP","American Idiot — GD"],
+    sum:{ goal:"Four intermediate+ tracks. Can't Stop is Flea's most syncopated iconic line.", time:'50 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools at pace.' },
+        { cat:'theory',    text:'Californication — Am F C G', detail:'Melodic, lyrical Flea bass. Root movement with space and feel. Not about complexity — about feel.' },
+        { cat:'song',      text:'Californication — verse', detail:'Soft approach, Am-based melodic line. Sustain notes fully. 15 min.' },
+        { cat:'song',      text:'Californication — full song', detail:'End to end. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Californication verse 3x 10 min', detail:'As warm-up.' },
+        { cat:'theory',    text:"Can't Stop — syncopation masterclass", detail:"One of Flea's most technically demanding grooves. Am pentatonic, heavily syncopated. The bass leads the song. Listen 5x before playing." },
+        { cat:'song',      text:"Can't Stop — main riff breakdown", detail:'Break the riff into 2-beat cells. Learn each cell separately. Am pentatonic. Very slow. 20 min.' },
+        { cat:'technique', text:'Syncopation drill — off-beat accents', detail:'Play eighth notes, accent beats 2 and 4 only. Then accent the "and" of each beat. Build syncopation feel. 10 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:"Can't Stop main riff 3x 10 min", detail:'As warm-up. Slow.' },
+        { cat:'song',      text:"Can't Stop — full verse at 70% tempo", detail:'Slow practice is the only way. Lock the syncopation before adding speed. 15 min.' },
+        { cat:'song',      text:"Can't Stop — bring to full tempo", detail:'Gradually increase tempo. 15 min.' },
+        { cat:'theory',    text:'HBFS — octave jump pattern', detail:'Low A → high A octave jump. Syncopated rhythm. Robot precision required.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Octave jump warm-up 10 min', detail:'All root-octave pairs on E and D strings.' },
+        { cat:'song',      text:'HBFS — full riff at tempo', detail:'Machine precision. Loop 20x consistently. 15 min.' },
+        { cat:'theory',    text:'American Idiot — G C G F fast', detail:'Driving, aggressive. G power chord on E fret 3. The bass holds the whole song together.' },
+        { cat:'song',      text:'American Idiot — full song', detail:'High energy. Fast forearm drive. End to end. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Fast warm-up 10 min', detail:'Push the BPM.' },
+        { cat:'song',      text:"Can't Stop — with original track", detail:'5 complete runs. Does it lock? 20 min.' },
+        { cat:'song',      text:'American Idiot — with original track', detail:'5 runs. Match Mike Dirnt\'s energy. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
+        { cat:'song',      text:'Phase II week 10 chain', detail:"Californication → Can't Stop → Dark Necessities → HBFS → Give It Away → American Idiot. Six songs, no breaks. 40 min." },
+      ]},
+    ]
+  },
+
+  // ─── PHASE III: PERFORMANCE (Weeks 11–13, Days 71–90) ────────
+
+  { id:'w11', phase:'III', wn:11, title:'Advanced RHCP — Higher Ground, Suck My Kiss & Tippa My Tongue',
+    tags:['Higher Ground slap','Suck My Kiss','Tippa My Tongue','Advanced Flea','From memory'],
+    songs:['Higher Ground — RHCP','Suck My Kiss — RHCP','Tippa My Tongue — RHCP'],
+    sum:{ goal:'Three of Flea\'s hardest bass lines. Slap, speed, and complex syncopation.', time:'55 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'Slap/pop warm-up 12 min', detail:'T-P combinations as full warm-up.' },
+        { cat:'theory',    text:'Higher Ground — slap bass approach', detail:'Originally Stevie Wonder. Flea made it a slap showcase. Thumb on A string, pop on D. Fast and precise.' },
+        { cat:'song',      text:'Higher Ground — main slap riff slowly', detail:'Don\'t rush. Get the thumb/pop technique right first. 15 min.' },
+        { cat:'technique', text:'Slap with left-hand hammer-ons', detail:'Slap, then hammer-on without re-plucking. One fluid motion. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Higher Ground riff 3x 12 min', detail:'As warm-up.' },
+        { cat:'song',      text:'Higher Ground — all sections from memory', detail:'Map and learn every part of the song. 20 min.' },
+        { cat:'song',      text:'Suck My Kiss — main riff', detail:'Funky, aggressive. Em based. Fast fingerstyle. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Slap + standard 12 min', detail:'Mix both warm-up styles.' },
+        { cat:'song',      text:'Suck My Kiss — full song from memory', detail:'All sections. No tabs. 15 min.' },
+        { cat:'theory',    text:'Tippa My Tongue — the toughest challenge', detail:'2022 RHCP track. Flea plays a relentlessly syncopated funk groove in Am. Fast tempo, complex off-beat accents. Study the bass isolated first on YouTube.' },
+        { cat:'song',      text:'Tippa My Tongue — isolate the main riff', detail:'Listen 5x. Find the Am root. Build the first 4-beat cell slowly. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'12 min full warm-up', detail:'All tools.' },
+        { cat:'song',      text:'Tippa My Tongue — verse groove at 60% tempo', detail:'Slow practice only today. Lock the rhythm before adding speed. 20 min.' },
+        { cat:'song',      text:'Higher Ground — with original track', detail:'5 runs. Match Flea. 20 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'12 min full warm-up', detail:'All tools.' },
+        { cat:'song',      text:'Tippa My Tongue — bring to full tempo', detail:'Gradually increase. Record at best tempo. 15 min.' },
+        { cat:'song',      text:'Full RHCP advanced set', detail:'Soul to Squeeze → Give It Away → Dark Necessities → Can\'t Stop → Californication → Higher Ground → Suck My Kiss. 35 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'12 min full warm-up', detail:'All tools.' },
+        { cat:'song',      text:'Record: Higher Ground', detail:'Full take. One shot. Listen back. 12 min.' },
+        { cat:'song',      text:'Record: Tippa My Tongue', detail:'Take it at whatever tempo is clean. This is your hardest recording. 12 min.' },
+        { cat:'groove',    text:'Free slap improvisation 15 min', detail:'Over Am Dm Em. No plan. All tools. Just groove.' },
+      ]},
+    ]
+  },
+
+  { id:'w12', phase:'III', wn:12, title:'Full Show Endurance',
+    tags:['30-min sets','Song transitions','Energy management','Ear learning'],
+    songs:['Otherside — RHCP (by ear)','With Arms Wide Open — Creed'],
+    sum:{ goal:'30-min non-stop sets. Learn a song by ear. All RHCP songs chained.', time:'55 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'12 min full warm-up', detail:'All tools — performance prep.' },
+        { cat:'song',      text:'Set A — LP + Creed — 28 min', detail:'Numb → In the End → One Step Closer → Crawling → With Arms Wide Open. No breaks between songs.' },
+        { cat:'theory',    text:'With Arms Wide Open — learn by ear', detail:'C G Am F based. Melodic, Creed-style. Listen 3x then find the root note by ear before playing. 12 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'12 min warm-up', detail:'Full performance prep.' },
+        { cat:'song',      text:'With Arms Wide Open — full song', detail:'Verse + chorus + bridge + outro from memory. No tabs. 15 min.' },
+        { cat:'song',      text:'Set B — GD + heavy — 28 min', detail:'Higher (Creed) → My Own Prison → Brain Stew → Basket Case → Longview → American Idiot. No breaks.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'12 min warm-up', detail:'Full performance prep.' },
+        { cat:'theory',    text:'Otherside (RHCP) — learn by ear', detail:'Am F C G. Listen → hum the bass line → find the root → build phrase by phrase. No tabs at all. 15 min.' },
+        { cat:'song',      text:'Otherside — verse and chorus by ear', detail:'Work it out section by section. Take your time. 25 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'12 min warm-up', detail:'All tools.' },
+        { cat:'song',      text:'Otherside — full song run', detail:'Everything you figured out. Start to finish, no stops. 15 min.' },
+        { cat:'song',      text:'Set C — Electronic + Funk — 30 min', detail:'Get Lucky → Around the World → Dangerous → Digital Love → HBFS → Lose Yourself to Dance → Soul to Squeeze. No breaks.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'12 min full warm-up', detail:'All tools.' },
+        { cat:'song',      text:'Full RHCP marathon set', detail:'Soul to Squeeze → Under the Bridge → Otherside → Give It Away → Dark Necessities → Can\'t Stop → Californication → Higher Ground → Suck My Kiss → Tippa My Tongue. This is every RHCP song in the plan. 45 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'12 min warm-up', detail:'Full performance prep.' },
+        { cat:'song',      text:'Record: full 30-min all-genre set', detail:'Basket Case → Get Lucky → Numb → Under the Bridge → Dark Necessities → One Step Closer → Higher Ground → American Idiot → Higher (Creed). Set up your phone. One take. Watch it back. Day 84 benchmark.' },
+      ]},
+    ]
+  },
+
+  { id:'w13', phase:'III', wn:13, title:'Day 90 — Style & Final Set',
+    tags:['Improvisation','Your sound','Original bass line','Final performance'],
+    songs:['All songs — full performance'],
+    sum:{ goal:'Define your style. Write something original. Record your final 45-min set.', time:'60 min/day' },
+    days:[
+      { items:[
+        { cat:'warmup',    text:'12 min full warm-up', detail:'All techniques — slap, ghost notes, chromatic, pentatonic.' },
+        { cat:'theory',    text:'What is your sound?', detail:'After 90 days: are you Flea (funk/melodic/slap), Dirnt (punk/power), or your own blend? The 10 RHCP songs you\'ve learned reveal your instinct. Write it down.' },
+        { cat:'groove',    text:'Write your own 8-bar bass line', detail:'Any key, any feel. Record it. Play it 10 times. This is original music. 25 min.' },
+        { cat:'groove',    text:'Develop your line', detail:'Add fills, ghost notes, dynamics. Evolve it over 16 bars. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'Your original line as warm-up 12 min', detail:'Play it until it\'s effortless.' },
+        { cat:'groove',    text:'Write a second original — different style', detail:'If first was heavy, go funky Flea-style. If first was groove, go electronic. 25 min.' },
+        { cat:'song',      text:'Chain both originals', detail:'Play original 1, pause 5 seconds, original 2. Treat it like a set. 15 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'12 min full warm-up', detail:'All tools.' },
+        { cat:'groove',    text:'Improvise over all five artists\' progressions', detail:'RHCP changes (Am F C G) → LP changes (Am G F C) → GD changes (G D Em C) → Daft Punk changes (Am Bm D F#m) → Creed changes (C G Am F). Create fresh lines over each. 30 min.' },
+        { cat:'groove',    text:'Free improvisation 15 min', detail:'Drum loop on. No rules. Slap, fingerstyle, ghost notes, approach notes — all tools available. Just play.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'12 min full warm-up', detail:'All tools.' },
+        { cat:'song',      text:'Best-songs personal set — your top 10 picks', detail:'Choose the 10 songs from the entire plan that you play best. Chain them with no breaks between. This is your 45-min live set. 45 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'12 min full warm-up', detail:'All tools.' },
+        { cat:'song',      text:'Record: 3 original bass lines', detail:'Clean takes of all originals you\'ve composed this week. One take each. 20 min.' },
+        { cat:'groove',    text:'Listen, evaluate, celebrate', detail:'You created original music after 90 days of deliberate practice. That\'s the whole point. 20 min.' },
+      ]},
+      { items:[
+        { cat:'warmup',    text:'12 min full warm-up', detail:'Everything — chromatic, slap, ghost notes, pentatonic, dynamics. You know all of it now.' },
+        { cat:'song',      text:'FINAL SET — Day 90 — 45 min', detail:'Your definitive set. Suggest: Higher (Creed) → Numb → Get Lucky → Under the Bridge → Dark Necessities → Can\'t Stop → Basket Case → One Step Closer → Higher Ground → Tippa My Tongue → [your original]. Record every second. End on your favourite song. You are a bassist.' },
+      ]},
+    ]
+  },
+
+];
+
+// ═══════════════════════════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════════════════════════
+const SK = 'bass90_checks_v2';
+function loadChecks(){ try{ return JSON.parse(localStorage.getItem(SK)||'{}'); }catch(e){ return {}; } }
+function saveCheck(k,v){ const c=loadChecks(); c[k]=v; localStorage.setItem(SK,JSON.stringify(c)); }
+function ckKey(wid,di,ii){ return `${wid}_d${di}_i${ii}`; }
+
+function updateGlobalProg(){
+  let total=0,done=0;
+  const c=loadChecks();
+  plan.forEach(w=>w.days.forEach(d=>d.items.forEach((_,ii)=>{ total++; })));
+  plan.forEach(w=>w.days.forEach((d,di)=>d.items.forEach((_,ii)=>{ if(c[ckKey(w.id,di,ii)]) done++; })));
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('gp-fill').style.width=pct+'%';
+  document.getElementById('gp-pct').textContent=pct+'%';
+  const gc=document.getElementById('gp-count');
+  if(gc) gc.textContent=`${done} / ${total} tasks`;
+}
+
+// ═══════════════════════════════════════════════════════
+// HANDLERS
+// ═══════════════════════════════════════════════════════
+function onCheck(key,dayColId,weekId){
+  const cb=document.getElementById('cb-'+key);
+  saveCheck(key,cb.checked);
+  cb.closest('.practice-item').classList.toggle('checked-item',cb.checked);
+  refreshDayCol(dayColId);
+  refreshWeekProg(weekId);
+  updateGlobalProg();
+}
+
+function refreshDayCol(id){
+  const col=document.getElementById(id);
+  if(!col) return;
+  const boxes=col.querySelectorAll('.item-checkbox');
+  const done=[...boxes].filter(b=>b.checked).length;
+  col.classList.toggle('all-done',done===boxes.length&&boxes.length>0);
+}
+
+function refreshWeekProg(wid){
+  const el=document.getElementById(wid);
+  if(!el) return;
+  const boxes=el.querySelectorAll('.item-checkbox');
+  const done=[...boxes].filter(b=>b.checked).length;
+  const total=boxes.length;
+  const f=el.querySelector('.week-prog-fill');
+  const l=el.querySelector('.week-prog-lbl');
+  if(f) f.style.width=total?Math.round(done/total*100)+'%':'0%';
+  if(l) l.textContent=`${done}/${total}`;
+  // update sidebar
+  const sb=document.getElementById('sb-prog-'+wid);
+  if(sb) sb.textContent=done===total&&total>0?'✓':'';
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════
+function renderSidebar(){
+  const sb=document.getElementById('sidebar');
+  let html='',lastPhase=null;
+  plan.forEach(w=>{
+    if(w.phase!==lastPhase){
+      if(lastPhase) html+='</div>';
+      html+=`<div class="sb-section"><div class="sb-head" style="color:${PC[w.phase]}">${PHASES[w.phase].label}</div>`;
+      lastPhase=w.phase;
+    }
+    html+=`<div class="sb-item" onclick="scrollToWeek('${w.id}')" id="nav-${w.id}">
+      <span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${w.title}</span>
+      <span style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+        <span class="sb-prog" id="sb-prog-${w.id}"></span>
+        <span class="sb-wk">W${w.wn}</span>
+      </span>
+    </div>`;
+  });
+  if(lastPhase) html+='</div>';
+  sb.innerHTML=html;
+  // restore sidebar progress
+  const c=loadChecks();
+  plan.forEach(w=>{
+    let tot=0,done=0;
+    w.days.forEach((d,di)=>d.items.forEach((_,ii)=>{ tot++; if(c[ckKey(w.id,di,ii)]) done++; }));
+    const el=document.getElementById('sb-prog-'+w.id);
+    if(el&&done===tot&&tot>0) el.textContent='✓';
+  });
+}
+
+function renderContent(phaseFilter='all',search=''){
+  const content=document.getElementById('content');
+  const checks=loadChecks();
+  let html='',lastPhase=null,dayNum=1;
+
+  plan.forEach(w=>{
+    const wDayStart=dayNum;
+    if(phaseFilter!=='all'&&w.phase!==phaseFilter){ dayNum+=7; return; }
+    if(search){
+      const s=search.toLowerCase();
+      const match=w.title.toLowerCase().includes(s)||
+        w.tags.some(t=>t.toLowerCase().includes(s))||
+        w.days.some(d=>d.items.some(i=>i.text.toLowerCase().includes(s)||(i.detail||'').toLowerCase().includes(s)));
+      if(!match){ dayNum+=7; return; }
+    }
+
+    if(w.phase!==lastPhase){
+      const p=PHASES[w.phase];
+      html+=`<div class="phase-div" id="phase-${w.phase}">
+        <div class="phase-div-num">Phase ${w.phase}</div>
+        <div class="phase-div-title" style="color:${PC[w.phase]}">${p.label}</div>
+        <div class="phase-div-days" style="color:${PC[w.phase]}44">Days ${p.days}</div>
+        <div class="phase-div-desc">${p.desc}</div>
+      </div>`;
+      lastPhase=w.phase;
+    }
+
+    let wTot=0,wDone=0;
+    w.days.forEach((d,di)=>d.items.forEach((_,ii)=>{ wTot++; if(checks[ckKey(w.id,di,ii)]) wDone++; }));
+    const wPct=wTot?Math.round(wDone/wTot*100):0;
+
+    const pills=w.songs.map(s=>{
+      let col='#888';
+      for(const[k,v]of Object.entries(BC)){ if(s.includes(k)){col=v;break;} }
+      return `<span class="song-pill"><span class="band-pip" style="background:${col}"></span>${s}</span>`;
+    }).join('');
+
+    html+=`<div class="week-block" id="${w.id}">
+      <div class="week-header" onclick="toggleWeek(this,'${w.id}')">
+        <div class="week-header-left">
+          <div class="week-num">Week ${w.wn} · Days ${wDayStart}–${wDayStart+5}</div>
+          <div class="week-title">${w.title}</div>
+          <div class="week-tags">${w.tags.map(t=>`<span class="wtag">${t}</span>`).join('')}</div>
+          <div class="week-prog-row">
+            <div class="week-prog-bar"><div class="week-prog-fill" style="width:${wPct}%"></div></div>
+            <div class="week-prog-lbl">${wDone}/${wTot}</div>
+          </div>
+        </div>
+        <div class="week-header-right">
+          <div class="phase-badge" style="background:${PC[w.phase]}">Phase ${w.phase}</div>
+          <span class="chevron">›</span>
+        </div>
+      </div>
+      <div class="week-body" id="body-${w.id}">
+        <div class="week-summary">
+          <div class="sum-block"><div class="sum-lbl">Goal</div><div class="sum-val">${w.sum.goal}</div></div>
+          <div class="sum-block"><div class="sum-lbl">Daily Time</div><div class="sum-val">${w.sum.time}</div></div>
+          ${w.songs.length?`<div class="sum-block"><div class="sum-lbl">Target Songs</div><div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:3px">${pills}</div></div>`:''}
+        </div>
+        <div class="days-wrap"><div class="days-grid">
+          ${w.days.map((day,di)=>{
+            const dn=wDayStart+di;
+            const names=['MON','TUE','WED','THU','FRI','SAT'];
+            const dcid=`dc-${w.id}-${di}`;
+            const dTot=day.items.length;
+            const dDone=day.items.filter((_,ii)=>checks[ckKey(w.id,di,ii)]).length;
+            const allDone=dTot>0&&dDone===dTot;
+            return `<div class="day-col${allDone?' all-done':''}" id="${dcid}">
+              <div class="day-col-hd">
+                <span class="day-lbl">${names[di]}</span>
+                <span class="day-done-badge">✓</span>
+              </div>
+              <div class="day-num">Day ${dn}</div>
+              ${day.items.map((item,ii)=>{
+                const key=ckKey(w.id,di,ii);
+                const chk=!!checks[key];
+                const res=getRes(item);
+                return `<div class="practice-item cat-${item.cat}${chk?' checked-item':''}">
+                  <div class="p-cat" style="color:${CC[item.cat]}">${CL[item.cat]}</div>
+                  <label class="item-check">
+                    <input type="checkbox" class="item-checkbox" id="cb-${key}" ${chk?'checked':''} onchange="onCheck('${key}','${dcid}','${w.id}')">
+                    <div class="item-content">
+                      <div class="p-text">${item.text}</div>
+                      ${item.detail?`<div class="p-detail">${item.detail}</div>`:''}
+                      ${res?`<a class="resource-link" href="${res.u}" target="_blank" rel="noopener">${res.l}</a>`:''}
+                    </div>
+                  </label>
+                </div>`;
+              }).join('')}
+            </div>`;
+          }).join('')}
+          <div class="day-rest">
+            <div class="rest-icon">☽</div>
+            <div class="rest-lbl">Rest</div>
+            <div class="rest-day">Day ${wDayStart+6}</div>
+          </div>
+        </div></div>
+      </div>
+    </div>`;
+
+    dayNum+=7;
+  });
+
+  if(!html.includes('week-block')) html=`<div class="no-results">No results for "${search}"</div>`;
+  content.innerHTML=html;
+  updateGlobalProg();
+}
+
+function toggleWeek(hdr,id){
+  hdr.classList.toggle('open');
+  document.getElementById('body-'+id).classList.toggle('open');
+}
+
+function scrollToWeek(id){
+  const el=document.getElementById(id);
+  if(!el) return;
+  const hdr=el.querySelector('.week-header');
+  const body=document.getElementById('body-'+id);
+  if(!hdr.classList.contains('open')){ hdr.classList.add('open'); body.classList.add('open'); }
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.sb-item').forEach(n=>n.classList.remove('active'));
+  const nav=document.getElementById('nav-'+id);
+  if(nav) nav.classList.add('active');
+}
+
+let curPhase='all',curSearch='';
+function filterPhase(p,btn){
+  curPhase=p;
+  document.querySelectorAll('.phase-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('search-box').value='';
+  curSearch='';
+  renderContent(p,'');
+}
+
+let st;
+function doSearch(v){
+  clearTimeout(st);
+  st=setTimeout(()=>{
+    curSearch=v.trim();
+    if(curSearch){ curPhase='all'; document.querySelectorAll('.phase-tab').forEach(t=>t.classList.remove('active')); document.querySelector('.phase-tab').classList.add('active'); }
+    renderContent(curPhase,curSearch);
+  },200);
+}
+
+// INIT
+renderSidebar();
+renderContent();
+setTimeout(()=>{
+  const fh=document.querySelector('.week-header');
+  if(fh){ toggleWeek(fh,fh.closest('.week-block').id); }
+},100);
+</script>
+</body>
+</html>
