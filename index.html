@@ -107,6 +107,13 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
 .day-col{border-right:1px solid var(--rule);padding:16px 12px;min-width:150px;}
 .day-col:last-child{border-right:none;}
 .day-col-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+  .day-col-hd { cursor: pointer; user-select: none; }
+  .day-col-hd:hover { opacity: 0.8; }
+  .day-col-body { display: none; margin-top: 10px; }
+  .day-col.open .day-col-body { display: block; }
+  .day-chevron { font-size: 14px; transition: transform 0.2s; margin-left: auto; margin-right: 10px; color: var(--fg); opacity:0.5; }
+  .day-col.open .day-chevron { transform: rotate(90deg); }
+
 .day-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);}
 .day-done-badge{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:1px;padding:2px 5px;background:var(--done-c);color:#fff;border-radius:2px;display:none;}
 .day-col.all-done{background:var(--done-bg);}
@@ -262,7 +269,7 @@ const PHASES = {
 const PC = { I:'#c8441a', II:'#1a6bc8', III:'#1a9e5a' };
 const CC = { warmup:'#f0a500', technique:'#1a6bc8', theory:'#8b1ac8', song:'#1a9e5a', groove:'#c8441a' };
 const CL = { warmup:'Warm-up', technique:'Technique', theory:'Theory', song:'Song', groove:'Groove' };
-const BC = { GD:'#c8441a', RHCP:'#cc0000', LP:'#1a6bc8', Creed:'#8b1ac8', DP:'#1a9e5a', DG:'#e67e00', Killers:'#d62828' };
+const BC = { GD:'#c8441a', RHCP:'#cc0000', LP:'#1a6bc8', Creed:'#8b1ac8', DP:'#1a9e5a', DG:'#e67e00', Killers:'#d62828', BJ:'#ff8c00' };
 
 // ═══════════════════════════════════════════════════════
 // RESOURCES
@@ -312,35 +319,12 @@ const RES = [
   { m:/holiday/i,             l:'Video & Tab: Holiday — GD',      u:'https://www.youtube.com/results?search_query=holiday+green+day+bass+tab' },
   { m:/smoke on the water/i,  l:'Video & Tab: Smoke on the Water',u:'https://www.youtube.com/results?search_query=smoke+on+the+water+bass+tab' },
   { m:/higher.{0,6}creed|creed.{0,6}higher/i, l:'Video & Tab: Higher — Creed', u:'https://www.youtube.com/results?search_query=higher+creed+bass+tab' },
-  { m:/my own prison/i,       l:'Video & Tab: My Own Prison',     u:'https://www.youtube.com/results?search_query=my+own+prison+bass+tab' },
-  { m:/with arms wide open/i, l:'Video & Tab: With Arms Wide Open',u:'https://www.youtube.com/results?search_query=with+arms+wide+open+bass+tab' },
-  { m:/what.s this life for/i,l:'Video & Tab: What\'s This Life For', u:'https://www.youtube.com/results?search_query=what+this+life+for+bass+tab' },
-  { m:/brain stew/i,          l:'Video & Tab: Instant Crush',        u:'https://www.youtube.com/results?search_query=brain+stew+bass+tab' },
-  { m:/basket case/i,         l:'Video & Tab: Basket Case',       u:'https://www.youtube.com/results?search_query=basket+case+bass+tab' },
-  { m:/when i come around/i,  l:'Video & Tab: When I Come Around',u:'https://www.youtube.com/results?search_query=when+i+come+around+bass+tab' },
-  { m:/longview/i,            l:'Video & Tab: Longview — GD',     u:'https://www.youtube.com/results?search_query=longview+green+day+bass+tab' },
-  { m:/american idiot/i,      l:'Video & Tab: American Idiot',    u:'https://www.youtube.com/results?search_query=american+idiot+bass+tab' },
-  { m:/numb/i,                l:'Video & Tab: Numb — LP',         u:'https://www.youtube.com/results?search_query=numb+linkin+park+bass+tab' },
-  { m:/in the end/i,          l:'Video & Tab: In the End — LP',   u:'https://www.youtube.com/results?search_query=in+the+end+bass+tab' },
-  { m:/crawling/i,            l:'Video & Tab: Crawling — LP',     u:'https://www.youtube.com/results?search_query=crawling+linkin+park+bass+tab' },
-  { m:/one step closer/i,     l:'Video & Tab: One Step Closer',   u:'https://www.youtube.com/results?search_query=one+step+closer+bass+tab' },
-  { m:/soul to squeeze/i,     l:'Video & Tab: Soul to Squeeze',   u:'https://www.youtube.com/results?search_query=soul+to+squeeze+bass+tab' },
-  { m:/under the bridge/i,    l:'Video & Tab: Under the Bridge',  u:'https://www.youtube.com/results?search_query=under+the+bridge+bass+tab' },
-  { m:/give it away/i,        l:'Video & Tab: Give It Away',      u:'https://www.youtube.com/results?search_query=give+it+away+bass+tab' },
-  { m:/californication/i,     l:'Video & Tab: Californication',   u:'https://www.youtube.com/results?search_query=californication+bass+tab' },
-  { m:/higher ground/i,       l:'Video & Tab: Higher Ground',     u:'https://www.youtube.com/results?search_query=higher+ground+rhcp+bass+tab' },
-  { m:/suck my kiss/i,        l:'Video & Tab: Suck My Kiss',      u:'https://www.youtube.com/results?search_query=suck+my+kiss+bass+tab' },
-  { m:/otherside/i,           l:'Video & Tab: Otherside — RHCP',  u:'https://www.youtube.com/results?search_query=otherside+bass+tab' },
-  { m:/can't stop|cant stop/i, l:'Video & Tab: Can\'t Stop — RHCP', u:'https://www.youtube.com/results?search_query=cant+stop+rhcp+bass+tab' },
-  { m:/dark necessities/i,    l:'Video & Tab: Dark Necessities',  u:'https://www.youtube.com/results?search_query=dark+necessities+bass+tab' },
-  { m:/tippa my tongue/i,     l:'Video & Tab: Tippa My Tongue',   u:'https://www.youtube.com/results?search_query=tippa+my+tongue+bass+tab' },
-  { m:/get lucky/i,           l:'Video & Tab: Get Lucky — Daft Punk', u:'https://www.youtube.com/results?search_query=get+lucky+bass+tab' },
-  { m:/around the world/i,    l:'Video & Tab: Around the World',  u:'https://www.youtube.com/results?search_query=around+the+world+daft+punk+bass+tab' },
-  { m:/digital love/i,        l:'Video & Tab: Digital Love',      u:'https://www.youtube.com/results?search_query=digital+love+bass+tab' },
-  { m:/harder better faster|HBFS/i, l:'Video & Tab: HBFS',        u:'https://www.youtube.com/results?search_query=harder+better+faster+stronger+bass+tab' },
-  { m:/lose yourself to dance/i, l:'Video & Tab: Lose Yourself to Dance', u:'https://www.youtube.com/results?search_query=lose+yourself+to+dance+bass+tab' },
-  { m:/instant crush/i,       l:'Video & Tab: Instant Crush',     u:'https://www.youtube.com/results?search_query=instant+crush+bass+tab' },
-  { m:/dangerous.{0,10}guetta|guetta/i, l:'Video & Tab: Dangerous', u:'https://www.youtube.com/results?search_query=dangerous+david+guetta+bass+tab' },
+  { m:/my own prison/i, l:'Video & Tab: My Own Prison', u:'https://www.youtube.com/results?search_query=my+own+prison+bass+tab' },
+{ m:/somewhere i belong/i,  l:'Video & Tab: Somewhere I Belong',u:'https://www.youtube.com/results?search_query=somewhere+i+belong+bass+tab' },
+  { m:/heavy is the crown/i,  l:'Video & Tab: Heavy Is The Crown',u:'https://www.youtube.com/results?search_query=heavy+is+the+crown+bass+tab' },
+  { m:/snow \\(hey oh\\)/i,  l:'Video & Tab: Snow',               u:'https://www.youtube.com/results?search_query=snow+hey+oh+bass+tab' },
+  { m:/livin on a prayer/i,   l:'Video & Tab: Livin on a Prayer', u:'https://www.youtube.com/results?search_query=livin+on+a+prayer+bass+tab' },
+  { m:/you give love a bad/i, l:'Video & Tab: Bad Name',          u:'https://www.youtube.com/results?search_query=you+give+love+a+bad+name+bass+tab' },
 ];
 
 function getRes(item) {
@@ -406,43 +390,43 @@ const plan = [
   },
 
   { id:'w2', phase:'I', wn:2, title:'Dynamics & Linkin Park Intro',
-    tags:['Dynamics','Sustained notes','Numb','In the End'],
-    songs:['Higher — Creed','Numb — LP'],
+    tags:['Bon Jovi','Driving 8ths','Somewhere I Belong'],
+    songs:['You Give Love a Bad Name — BJ','Somewhere I Belong — LP'],
     sum:{ goal:'Soft-to-loud control. First Linkin Park songs.', time:'42 min/day' },
     days:[
       { items:[
         { cat:'warmup',    text:'Chromatic + pentatonic 8 min', detail:'Standard warm-up.' },
         { cat:'technique', text:'Dynamic control drill', detail:'4 bars very soft (pp), 4 bars medium (mp), 4 bars hard (ff). Same tempo. Feel each volume. 12 min.' },
-        { cat:'theory',    text:'Numb — chord map', detail:'Am G F C. Find roots: A (open A), G (E fret 3), F (A fret 8), C (A fret 3).' },
-        { cat:'song',      text:'Numb — intro descending line', detail:'A G E F. Four notes, deliberate. 12 min.' },
+        { cat:'theory',    text:'Somewhere I Belong — chord map', detail:'Am G F C. Find roots: A (open A), G (E fret 3), F (A fret 8), C (A fret 3).' },
+        { cat:'song',      text:'Somewhere I Belong — intro', detail:'A G E F. Four notes, deliberate. 12 min.' },
       ]},
       { items:[
-        { cat:'warmup',    text:'Numb intro as warm-up 3x', detail:'8 min.' },
+        { cat:'warmup',    text:'Somewhere I Belong intro 3x', detail:'8 min.' },
         { cat:'technique', text:'Sustain — hold notes full value', detail:'Play a note, hold it until the very next note starts. Don\'t release early. 10 min.' },
         { cat:'groove',    text:'Half-note groove — Am vamp', detail:'A for 2 beats, G for 2 beats, F for 2, C for 2. Heavy and slow. 80 BPM. 12 min.' },
-        { cat:'song',      text:'Numb — full verse loop', detail:'Verse pattern, 15 clean reps. 12 min.' },
+        { cat:'song',      text:'Somewhere I Belong — verse', detail:'Verse pattern, 15 clean reps. 12 min.' },
       ]},
       { items:[
         { cat:'warmup',    text:'Dynamic warm-up 8 min', detail:'Soft/loud alternating each 4-bar set.' },
         { cat:'technique', text:'Smooth position shifts', detail:'Moving from low to high frets without a gap or buzz. Slow practice. 10 min.' },
-        { cat:'theory',    text:'Higher — chord map', detail:'Am F C G. Same root positions. Walk between them mentally.' },
-        { cat:'song',      text:'Higher — verse bass', detail:'Simple root-note groove with rhythmic hook. Learn verse movement. 14 min.' },
+        { cat:'theory',    text:'You Give Love a Bad Name — chord map', detail:'Cm Ab Bb. Very active pentatonic fills.' },
+        { cat:'song',      text:'Bad Name — verse bass', detail:'Driving C roots, quick fills. Clean rhythm. 14 min.' },
       ]},
       { items:[
         { cat:'warmup',    text:'Chromatic + pentatonic 8 min', detail:'Standard warm-up.' },
         { cat:'technique', text:'Vibrato on long notes', detail:'Rock finger side-to-side quickly on a sustained note. Subtle, adds life. 10 min.' },
-        { cat:'song',      text:'Numb — chorus', detail:'Chorus rises in intensity. Match with slightly harder plucking. 12 min.' },
-        { cat:'song',      text:'Higher — chorus', detail:'More rhythmically active. Learn the movement. 12 min.' },
+        { cat:'song',      text:'Somewhere I Belong — chorus', detail:'Chorus rises in intensity. Match with slightly harder plucking. 12 min.' },
+        { cat:'song',      text:'Bad Name — chorus', detail:'Heavy 8th note drive. Lock with the kick. 12 min.' },
       ]},
       { items:[
-        { cat:'warmup',    text:'Numb verse as warm-up', detail:'8 min.' },
-        { cat:'song',      text:'Numb — full song run', detail:'Intro → verse → chorus → verse → chorus → outro. No stops. 15 min.' },
-        { cat:'song',      text:'Higher — full song run', detail:'All sections. No stops. 15 min.' },
+        { cat:'warmup',    text:'Somewhere I Belong verse 3x', detail:'8 min.' },
+        { cat:'song',      text:'Somewhere I Belong — full song run', detail:'Intro → verse → chorus → verse → chorus → outro. No stops. 15 min.' },
+        { cat:'song',      text:'Bad Name — full song run', detail:'All sections. No stops. 15 min.' },
       ]},
       { items:[
         { cat:'warmup',    text:'Full warm-up 8 min', detail:'All tools.' },
         { cat:'groove',    text:'LP-style dynamic improvisation', detail:'Over Am G F C — start soft, build to loud over 8 bars. Then fade. 12 min.' },
-        { cat:'song',      text:'Numb + Higher back to back', detail:'Full runs of both. 20 min.' },
+        { cat:'song',      text:'Somewhere I Belong + Bad Name', detail:'Full runs of both. 20 min.' },
       ]},
     ]
   },
@@ -478,7 +462,7 @@ const plan = [
       ]},
       { items:[
         { cat:'warmup',    text:'Get Lucky + Around the World riffs 8 min', detail:'Both as warm-up.' },
-        { cat:'song',      text:'In the End — chorus and full song', detail:'Chorus is higher energy. Play the full song. 15 min.' },
+        { cat:'song',      text:'Livin\' on a Prayer — chorus and full song', detail:'Chorus is higher energy. Play the full song. 15 min.' },
         { cat:'song',      text:'Daft Punk set: Get Lucky → Around the World', detail:'Both full runs back to back. 15 min.' },
       ]},
       { items:[
@@ -532,28 +516,28 @@ const plan = [
 
   { id:'w5', phase:'I', wn:5, title:'Phase I Consolidation & Instant Crush',
     tags:['Instant Crush','Lose Yourself to Dance','Review','Song chaining'],
-    songs:['In the End — LP','Mr. Brightside — The Killers'],
+    songs:['Livin\' on a Prayer — BJ','Mr. Brightside — Killers'],
     sum:{ goal:'Review all Phase I songs. Add two Daft Punk tracks.', time:'45 min/day' },
     days:[
       { items:[
         { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
-        { cat:'song',      text:'In the End — key and feel', detail:'Am Bm E7 based. Slower, melodic Daft Punk. Listen 3x before playing. 12 min.' },
-        { cat:'song',      text:'In the End — verse bass by ear', detail:'Find each note. Listen → find → play. Build phrase by phrase. 15 min.' },
+        { cat:'song',      text:'Livin\' on a Prayer — main riff', detail:'Active, melodic, fast 8ths. Listen to the isolated bass line. 12 min.' },
+        { cat:'song',      text:'Livin\' on a Prayer — verse baseline', detail:'Find each note. Listen → find → play. Build phrase by phrase. 15 min.' },
       ]},
       { items:[
         { cat:'warmup',    text:'Instant Crush verse 3x 10 min', detail:'Warm-up.' },
-        { cat:'song',      text:'In the End — chorus', detail:'More movement. Work it out section by section. 12 min.' },
+        { cat:'song',      text:'Livin\' on a Prayer — chorus', detail:'More movement. Work it out section by section. 12 min.' },
         { cat:'song',      text:'Mr. Brightside — main riff', detail:'Am Bm D F#m. Similar feel to Get Lucky. Slightly busier. 15 min.' },
       ]},
       { items:[
         { cat:'warmup',    text:'Chromatic + pentatonic 10 min', detail:'Standard warm-up.' },
         { cat:'song',      text:'Mr. Brightside — full song run', detail:'Loop the main riff with the track for 10 min. Consistency is the exercise. 12 min.' },
-        { cat:'song',      text:'In the End — full run', detail:'All sections. No stops. 12 min.' },
+        { cat:'song',      text:'Livin\' on a Prayer — full run', detail:'All sections. No stops. 12 min.' },
       ]},
       { items:[
         { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
         { cat:'song',      text:'Phase I review set A', detail:'Higher → Instant Crush → When I Come Around. 20 min.' },
-        { cat:'song',      text:'Phase I review set B', detail:'Numb → Get Lucky → Basket Case. 20 min.' },
+        { cat:'song',      text:'Phase I review set B', detail:'Somewhere I Belong → Get Lucky → Basket Case. 20 min.' },
       ]},
       { items:[
         { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
@@ -561,7 +545,7 @@ const plan = [
       ]},
       { items:[
         { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
-        { cat:'song',      text:'Phase I mega chain', detail:'Higher → Numb → Get Lucky → Basket Case → In the End → Dangerous → Instant Crush. 35 min.' },
+        { cat:'song',      text:'Phase I mega chain', detail:'Higher → Somewhere I Belong → Get Lucky → Basket Case → In the End → Dangerous → Instant Crush. 35 min.' },
         { cat:'technique', text:'Record one song, listen back', detail:'Pick any Phase I song. Record a take. Listen back. Note 3 things to improve. This is your Phase I benchmark.' },
       ]},
     ]
@@ -651,36 +635,36 @@ const plan = [
   },
 
   { id:'w8', phase:'II', wn:8, title:'Linkin Park Advanced',
-    tags:['One Step Closer','Crawling','Heavy eighth notes','Soft-loud contrast'],
-    songs:['One Step Closer — LP','Crawling — LP'],
+    tags:['Heavy Is The Crown','Snow (Hey Oh)','Fast 16ths','Heavy Rock'],
+    songs:['Heavy Is The Crown — LP','Snow (Hey Oh) — RHCP'],
     sum:{ goal:'Heavy and dynamic Linkin Park. Two different worlds.', time:'45 min/day' },
     days:[
       { items:[
         { cat:'warmup',    text:'Drop-D warm-up 10 min', detail:'Heavy focus — this week is physical.' },
-        { cat:'theory',    text:'One Step Closer — structure', detail:'Verse: Am eighth-note drive. Chorus: Drop-D explosion. Bridge: heavy syncopated breakdown. Map all three.' },
-        { cat:'song',      text:'One Step Closer — verse', detail:'Am eighth notes, palm muted, aggressive. 15 min.' },
+        { cat:'theory',    text:'Heavy Is The Crown — structure', detail:'Verse: Am eighth-note drive. Chorus: Drop-D explosion. Bridge: heavy syncopated breakdown. Map all three.' },
+        { cat:'song',      text:'Heavy Is The Crown — verse', detail:'Am eighth notes, palm muted, aggressive. 15 min.' },
         { cat:'technique', text:'Power and control', detail:'This needs physicality. Pluck hard but stay in control. Body weight into it. 8 min.' },
       ]},
       { items:[
-        { cat:'warmup',    text:'One Step Closer verse 3x 10 min', detail:'As warm-up.' },
-        { cat:'song',      text:'One Step Closer — chorus + bridge', detail:'Drop-D driving chorus. Syncopated bridge (Shut up! section). 15 min.' },
-        { cat:'song',      text:'One Step Closer — full song', detail:'Start to finish. No stops. 15 min.' },
+        { cat:'warmup',    text:'Heavy Is The Crown verse 3x 10 min', detail:'As warm-up.' },
+        { cat:'song',      text:'Heavy Is The Crown — chorus', detail:'Drop-D driving chorus. Syncopated bridge (Shut up! section). 15 min.' },
+        { cat:'song',      text:'Heavy Is The Crown — full song', detail:'Start to finish. No stops. 15 min.' },
       ]},
       { items:[
         { cat:'warmup',    text:'Standard 10 min warm-up', detail:'All tools.' },
         { cat:'technique', text:'Dynamic contrast drill', detail:'Play 4 bars aggressive (One Step Closer mode), then immediately 4 bars very soft (Crawling mode). Switch cold. 12 min.' },
-        { cat:'song',      text:'Crawling — verse', detail:'Soft, Am-based, floating sustained notes. Big contrast to OSC. 15 min.' },
-        { cat:'song',      text:'Crawling — chorus', detail:'Builds in intensity but never fully explodes. 12 min.' },
+        { cat:'song',      text:'Snow (Hey Oh) — verse', detail:'Soft, Am-based, floating sustained notes. Big contrast to OSC. 15 min.' },
+        { cat:'song',      text:'Snow (Hey Oh) — chorus', detail:'Builds in intensity but never fully explodes. 12 min.' },
       ]},
       { items:[
-        { cat:'warmup',    text:'Crawling verse 3x 10 min', detail:'Soft mode warm-up.' },
-        { cat:'song',      text:'Crawling — full song', detail:'All sections. Dynamics must be felt. 15 min.' },
-        { cat:'song',      text:'One Step Closer — with original track', detail:'5 runs with recording. 15 min.' },
+        { cat:'warmup',    text:'Snow (Hey Oh) verse 3x 10 min', detail:'Soft mode warm-up.' },
+        { cat:'song',      text:'Snow (Hey Oh) — full song', detail:'All sections. Dynamics must be felt. 15 min.' },
+        { cat:'song',      text:'Heavy Is The Crown — with original track', detail:'5 runs with recording. 15 min.' },
       ]},
       { items:[
         { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
-        { cat:'song',      text:'Crawling — with original track', detail:'5 full runs. 15 min.' },
-        { cat:'song',      text:'One Step Closer → Crawling back to back', detail:'Two full runs each. 25 min.' },
+        { cat:'song',      text:'Snow (Hey Oh) — with track', detail:'5 full runs. 15 min.' },
+        { cat:'song',      text:'Heavy Is The Crown → Snow (Hey Oh) back to back', detail:'Two full runs each. 25 min.' },
       ]},
       { items:[
         { cat:'warmup',    text:'Full warm-up 10 min', detail:'All tools.' },
@@ -821,13 +805,13 @@ const plan = [
     days:[
       { items:[
         { cat:'warmup',    text:'12 min full warm-up', detail:'All tools — performance prep.' },
-        { cat:'song',      text:'Set A — LP + Creed — 28 min', detail:'Numb → In the End → One Step Closer → Crawling → With Arms Wide Open. No breaks between songs.' },
-        { cat:'theory',    text:'With Arms Wide Open — learn by ear', detail:'C G Am F based. Melodic, Creed-style. Listen 3x then find the root note by ear before playing. 12 min.' },
+        { cat:'song',      text:'Set A — LP + Creed — 28 min', detail:'Numb → In the End → Heavy Is The Crown → Snow (Hey Oh) → With Arms Wide Open. No breaks between songs.' },
+        { cat:'theory',    text:'My Own Prison — review by ear', detail:'C G Am F based. Melodic, Creed-style. Listen 3x then find the root note by ear before playing. 12 min.' },
       ]},
       { items:[
         { cat:'warmup',    text:'12 min warm-up', detail:'Full performance prep.' },
-        { cat:'song',      text:'With Arms Wide Open — full song', detail:'Verse + chorus + bridge + outro from memory. No tabs. 15 min.' },
-        { cat:'song',      text:'Set B — GD + heavy — 28 min', detail:'Higher (Creed) → My Own Prison → Instant Crush → Basket Case → Longview → American Idiot. No breaks.' },
+        { cat:'song',      text:'My Own Prison — full song (Ear focus)', detail:'Verse + chorus + bridge + outro from memory. No tabs. 15 min.' },
+        { cat:'song',      text:'Set B — GD + heavy — 28 min', detail:'You Give Love a Bad Name → My Own Prison → Instant Crush → Basket Case → Longview → American Idiot. No breaks.' },
       ]},
       { items:[
         { cat:'warmup',    text:'12 min warm-up', detail:'Full performance prep.' },
@@ -845,7 +829,7 @@ const plan = [
       ]},
       { items:[
         { cat:'warmup',    text:'12 min warm-up', detail:'Full performance prep.' },
-        { cat:'song',      text:'Record: full 30-min all-genre set', detail:'Basket Case → Get Lucky → Numb → Under the Bridge → Dark Necessities → One Step Closer → Higher Ground → American Idiot → Higher (Creed). Set up your phone. One take. Watch it back. Day 84 benchmark.' },
+        { cat:'song',      text:'Record: full 30-min all-genre set', detail:'Basket Case → Get Lucky → Numb → Under the Bridge → Dark Necessities → One Step Closer → Higher Ground → American Idiot → You Give Love a Bad Name. Set up your phone. One take. Watch it back. Day 84 benchmark.' },
       ]},
     ]
   },
@@ -882,7 +866,7 @@ const plan = [
       ]},
       { items:[
         { cat:'warmup',    text:'12 min full warm-up', detail:'Everything — chromatic, slap, ghost notes, pentatonic, dynamics. You know all of it now.' },
-        { cat:'song',      text:'FINAL SET — Day 90 — 45 min', detail:'Your definitive set. Suggest: Higher (Creed) → Numb → Get Lucky → Under the Bridge → My Own Prison → Dark Necessities → Can\'t Stop → Basket Case → One Step Closer → Higher Ground → Tippa My Tongue → [your original]. Record every second. End on your favourite song. You are a bassist. Confident to play all these songs and compose your own basslines!' },
+        { cat:'song',      text:'FINAL SET — Day 90 — 45 min', detail:'Your definitive set. Suggest: You Give Love a Bad Name → Somewhere I Belong → Get Lucky → Under the Bridge → My Own Prison → Dark Necessities → Can\'t Stop → Basket Case → One Step Closer → Higher Ground → Tippa My Tongue → [your original]. Record every second. End on your favourite song. You are a bassist. Confident to play all these songs and compose your own basslines!' },
       ]},
     ]
   },
@@ -1015,10 +999,10 @@ function renderContent(phaseFilter='all',search=''){
             const dDone=day.items.filter((_,ii)=>checks[ckKey(w.id,di,ii)]).length;
             const allDone=dTot>0&&dDone===dTot;
             return `<div class="day-col${allDone?' all-done':''}" id="${dcid}">
-              <div class="day-col-hd">
+              <div class="day-col-hd" onclick="this.parentElement.classList.toggle(\'open\')">
                 <span class="day-lbl">${names[di]}</span>
                 <span class="day-done-badge">✓</span>
-              </div>
+              <span class="day-chevron">›</span></div>\n            <div class="day-col-body">
               <div class="day-num">Day ${dn}</div>
               ${day.items.map((item,ii)=>{
                 const key=ckKey(w.id,di,ii);
