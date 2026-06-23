@@ -17,15 +17,15 @@ html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-height:100vh;}
 
 /* ── HERO ── */
-.hero{padding:40px 24px 32px;border-bottom:2px solid var(--ink);background:var(--ink);color:#fff;}
+.hero{padding:16px 24px 16px;border-bottom:2px solid var(--ink);background:var(--ink);color:#fff;}
 .hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:12px;}
-.hero-title{font-size:clamp(40px,9vw,80px);font-weight:800;line-height:0.92;letter-spacing:-2px;}
+.hero-title{font-size:clamp(24px, 5vw, 40px);font-weight:800;line-height:0.92;letter-spacing:-2px;}
 .hero-title em{font-style:normal;color:var(--accent);}
-.hero-meta{margin-top:20px;display:flex;gap:24px;flex-wrap:wrap;}
+.hero-meta{margin-top:10px;display:flex;gap:24px;flex-wrap:wrap;}
 .meta-item{display:flex;flex-direction:column;gap:2px;}
 .meta-val{font-size:clamp(22px,5vw,30px);font-weight:700;line-height:1;color:var(--accent);}
 .meta-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#666;}
-.hero-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;padding-top:20px;border-top:1px solid #2a2824;}
+.hero-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid #2a2824;}
 .legend-row{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#888;}
 .legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 
@@ -146,7 +146,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
 @media(max-width:768px){
   .layout{grid-template-columns:1fr;}
   
-  .hero{padding:32px 16px 24px;}
+  .hero{padding:16px;}
   .hero-meta{gap:16px;}
   .meta-val{font-size:24px;}
   .global-prog{padding:10px 16px;gap:10px;}
@@ -180,7 +180,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
 }
 
 @media(max-width:480px){
-  .hero-title{font-size:42px;}
+  .hero-title{font-size:28px;}
   .phase-tab{padding:12px 10px;font-size:9px;}
   .search-input{width:100px;font-size:10px;}
   .week-summary{grid-template-columns:1fr;}
@@ -191,7 +191,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Syne',sans-serif;min-hei
 
 <div class="hero">
   <div class="hero-eyebrow">Kaizen Bass Program · 90 Days</div>
-  <div class="hero-title">BASS<br><em>GUITAR</em><br>PLANNER</div>
+  <div class="hero-title">BASS <em>GUITAR</em> PLANNER</div>
   <div class="hero-meta">
     <div class="meta-item"><div class="meta-val">90</div><div class="meta-lbl">Days</div></div>
     <div class="meta-item"><div class="meta-val">3</div><div class="meta-lbl">Phases</div></div>
@@ -859,7 +859,7 @@ const plan = [
         { cat:'warmup',    text:'12 min full warm-up', detail:'All techniques — slap, ghost notes, chromatic, pentatonic.' },
         { cat:'theory',    text:'What is your sound?', detail:'After 90 days: are you Flea (funk/melodic/slap), Dirnt (punk/power), or your own blend? The 10 RHCP songs you\'ve learned reveal your instinct. Write it down.' },
         { cat:'groove',    text:'Write your own 8-bar bass line (Compose similar baselines to RHCP/Killers)', detail:'Any key, any feel. Record it. Play it 10 times. This is original music. 25 min.' },
-        { cat:'groove',    text:'Develop your line (Make it sound like Dark Necessities or Can't Stop)', detail:'Add fills, ghost notes, dynamics. Evolve it over 16 bars. 15 min.' },
+        { cat:'groove',    text:'Develop your line (Make it sound like Dark Necessities or Can\'t Stop)', detail:'Add fills, ghost notes, dynamics. Evolve it over 16 bars. 15 min.' },
       ]},
       { items:[
         { cat:'warmup',    text:'Your original line as warm-up 12 min', detail:'Play it until it\'s effortless.' },
