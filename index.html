@@ -945,25 +945,7 @@ function refreshWeekProg(wid){
 // ═══════════════════════════════════════════════════════
 // RENDER
 // ═══════════════════════════════════════════════════════
-    html+=`<div class="sb-item" onclick="scrollToWeek('${w.id}')" id="nav-${w.id}">
-      <span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${w.title}</span>
-      <span style="display:flex;align-items:center;gap:6px;flex-shrink:0">
-        <span class="sb-prog" id="sb-prog-${w.id}"></span>
-        <span class="sb-wk">W${w.wn}</span>
-      </span>
-    </div>`;
-  });
-  if(lastPhase) html+='</div>';
-  sb.innerHTML=html;
-  // restore sidebar progress
-  const c=loadChecks();
-  plan.forEach(w=>{
-    let tot=0,done=0;
-    w.days.forEach((d,di)=>d.items.forEach((_,ii)=>{ tot++; if(c[ckKey(w.id,di,ii)]) done++; }));
-    const el=document.getElementById('sb-prog-'+w.id);
-    if(el&&done===tot&&tot>0) el.textContent='✓';
-  });
-}
+
 
 function renderContent(phaseFilter='all',search=''){
   const content=document.getElementById('content');
