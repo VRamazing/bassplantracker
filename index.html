@@ -999,11 +999,15 @@ function renderContent(phaseFilter='all',search=''){
             const dDone=day.items.filter((_,ii)=>checks[ckKey(w.id,di,ii)]).length;
             const allDone=dTot>0&&dDone===dTot;
             return `<div class="day-col${allDone?' all-done':''}" id="${dcid}">
-              <div class="day-col-hd" onclick="this.parentElement.classList.toggle(\'open\')">
-                <span class="day-lbl">${names[di]}</span>
-                <span class="day-done-badge">✓</span>
-              <span class="day-chevron">›</span></div>\n            <div class="day-col-body">
-              <div class="day-num">Day ${dn}</div>
+              <div class="day-col-hd" onclick="this.parentElement.classList.toggle(\\'open\\')">
+                <div style="display:flex; align-items:baseline; gap:8px;">
+                  <span class="day-num" style="margin-bottom:0">Day ${dn}</span>
+                  <span class="day-lbl" style="font-size:11px; opacity:0.6">${names[di]}</span>
+                  <span class="day-done-badge">✓</span>
+                </div>
+                <span class="day-chevron">›</span>
+              </div>
+              <div class="day-col-body">
               ${day.items.map((item,ii)=>{
                 const key=ckKey(w.id,di,ii);
                 const chk=!!checks[key];
